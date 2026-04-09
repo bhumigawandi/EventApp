@@ -189,4 +189,8 @@ class DBHelper(context: Context) :
         val db = readableDatabase
         return db.rawQuery("SELECT * FROM events WHERE status='Approved'", null)
     }
+    fun getAllEvents(): Cursor {
+        val db = readableDatabase
+        return db.rawQuery("SELECT * FROM events", null)
+    }
 }
