@@ -1,0 +1,87 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- 🔹 Title -->
+        <TextView
+            android:text="Organizer Registration"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔹 Name -->
+        <EditText
+            android:id="@+id/name"
+            android:hint="Organizer Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔹 Email -->
+        <EditText
+            android:id="@+id/email"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔹 Phone -->
+        <EditText
+            android:id="@+id/phone"
+            android:hint="Phone"
+            android:inputType="phone"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔹 Event Name -->
+        <EditText
+            android:id="@+id/event"
+            android:hint="Event Name"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔹 Category Spinner -->
+        <Spinner
+            android:id="@+id/spinnerCategory"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔹 Password -->
+        <EditText
+            android:id="@+id/password"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔹 Confirm Password -->
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔹 Register Button -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:text="Register"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</ScrollView>

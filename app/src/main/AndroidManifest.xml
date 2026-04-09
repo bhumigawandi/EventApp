@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:label="Event App"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <!-- Launcher Activity -->
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".OrganizerRegisterActivity"/>
+        <activity android:name=".StudentRegisterActivity"/>
+        <activity android:name=".AdminDashboard"/>
+        <activity android:name=".OrganizerDashboard"/>
+        <activity android:name=".StudentDashboard"/>
+        <activity android:name=".CreateEventActivity"/>
+        <activity android:name=".MyEventsActivity"/>
+    </application>
+
+</manifest>
