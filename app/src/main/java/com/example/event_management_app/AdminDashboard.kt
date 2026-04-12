@@ -10,11 +10,11 @@ class AdminDashboard : AppCompatActivity() {
 
     private lateinit var db: DBHelper
     private lateinit var container: LinearLayout
-    private lateinit var pendingCount: TextView
 
     private lateinit var totalBox: TextView
     private lateinit var pendingBox: TextView
     private lateinit var approvedBox: TextView
+    private lateinit var pendingCount: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,27 +22,18 @@ class AdminDashboard : AppCompatActivity() {
 
         db = DBHelper(this)
 
+        // 🔹 CONNECT UI (same as your XML)
         container = findViewById(R.id.pendingContainer)
-        pendingCount = findViewById(R.id.pendingCount)
-
         totalBox = findViewById(R.id.totalCount)
         pendingBox = findViewById(R.id.pendingBox)
         approvedBox = findViewById(R.id.approvedCount)
+        pendingCount = findViewById(R.id.pendingCount)
 
-        // Click listeners
-        totalBox.setOnClickListener {
-            loadEvents("ALL")
-        }
+        // 🔹 CLICK FILTER
+        totalBox.setOnClickListener { loadEvents("ALL") }
+        pendingBox.setOnClickListener { loadEvents("PENDING") }
+        approvedBox.setOnClickListener { loadEvents("APPROVED") }
 
-        pendingBox.setOnClickListener {
-            loadEvents("PENDING")
-        }
-
-        approvedBox.setOnClickListener {
-            loadEvents("APPROVED")
-        }
-
-        // Default load
         loadEvents("PENDING")
         updateCounts()
     }
@@ -64,10 +55,11 @@ class AdminDashboard : AppCompatActivity() {
                 val category = cursor.getString(cursor.getColumnIndexOrThrow("category"))
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
 
+                // 🔹 CARD
                 val card = LinearLayout(this)
                 card.orientation = LinearLayout.VERTICAL
-                card.setPadding(20, 20, 20, 20)
-                card.setBackgroundResource(R.drawable.card_bg)
+                card.setPadding(25, 25, 25, 25)
+                card.setBackgroundColor(Color.WHITE)
 
                 val params = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -76,11 +68,13 @@ class AdminDashboard : AppCompatActivity() {
                 params.setMargins(0, 0, 0, 20)
                 card.layoutParams = params
 
+                // 🔹 TITLE
                 val tvTitle = TextView(this)
                 tvTitle.text = title
                 tvTitle.textSize = 16f
                 tvTitle.setTextColor(Color.BLACK)
 
+                // 🔹 INFO
                 val tvInfo = TextView(this)
                 tvInfo.text = "$category • $date"
                 tvInfo.setTextColor(Color.GRAY)
@@ -88,21 +82,17 @@ class AdminDashboard : AppCompatActivity() {
                 card.addView(tvTitle)
                 card.addView(tvInfo)
 
-                // Buttons (only for pending)
+                // 🔥 ONLY FOR PENDING → SHOW BUTTONS
                 if (type == "PENDING") {
 
                     val btnLayout = LinearLayout(this)
                     btnLayout.orientation = LinearLayout.HORIZONTAL
 
                     val approve = Button(this)
-                    approve.text = "✓ Approve"
-                    approve.setBackgroundColor(Color.parseColor("#4CAF50"))
-                    approve.setTextColor(Color.WHITE)
+                    approve.text = "Approve"
 
                     val reject = Button(this)
-                    reject.text = "✗ Reject"
-                    reject.setBackgroundColor(Color.parseColor("#F44336"))
-                    reject.setTextColor(Color.WHITE)
+                    reject.text = "Reject"
 
                     val btnParams = LinearLayout.LayoutParams(
                         0,
@@ -114,6 +104,7 @@ class AdminDashboard : AppCompatActivity() {
                     approve.layoutParams = btnParams
                     reject.layoutParams = btnParams
 
+                    // ✅ APPROVE
                     approve.setOnClickListener {
                         db.updateEventStatus(id, "Approved")
                         Toast.makeText(this, "Approved", Toast.LENGTH_SHORT).show()
@@ -121,6 +112,7 @@ class AdminDashboard : AppCompatActivity() {
                         updateCounts()
                     }
 
+                    // ❌ REJECT
                     reject.setOnClickListener {
                         db.updateEventStatus(id, "Rejected")
                         Toast.makeText(this, "Rejected", Toast.LENGTH_SHORT).show()
@@ -147,13 +139,14 @@ class AdminDashboard : AppCompatActivity() {
     }
 
     private fun updateCounts() {
+
         val total = db.getAllEvents().count
         val pending = db.getPendingEvents().count
         val approved = db.getApprovedEvents().count
 
-        totalBox.text = "$total\nTotal"
-        pendingBox.text = "$pending\nPending"
-        approvedBox.text = "$approved\nApproved"
+        totalBox.text = "$total"
+        pendingBox.text = "$pending"
+        approvedBox.text = "$approved"
 
         pendingCount.text = "$pending events awaiting approval"
     }

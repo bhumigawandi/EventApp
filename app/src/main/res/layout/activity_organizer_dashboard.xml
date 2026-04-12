@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#F4F6FB"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F4F6FB">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
@@ -10,16 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Header -->
+        <!-- Title -->
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Organizer"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:textStyle="bold"/>
 
-        <!-- Purple Card -->
+        <!-- Greeting -->
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"/>
+
+        <!-- Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
@@ -29,15 +37,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="Hello, Rahul 👋"
-                android:textColor="#fff"
-                android:textSize="14sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
                 android:text="Create &amp; Manage Events"
-                android:textColor="#fff"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -45,74 +46,30 @@
 
             <TextView
                 android:text="Track your event submissions"
-                android:textColor="#fff"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <!-- Stats -->
+        <!-- Buttons Row -->
         <LinearLayout
-            android:layout_marginTop="16dp"
             android:orientation="horizontal"
-            android:weightSum="3"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:background="@drawable/card_bg"
-                android:padding="16dp"
-                android:text="4\nMy Events"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:background="@drawable/card_bg"
-                android:padding="16dp"
-                android:text="1\nPending"
-                android:gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:background="@drawable/card_bg"
-                android:padding="16dp"
-                android:text="3\nApproved"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-
-        <!-- Quick Actions -->
-        <TextView
-            android:text="Quick Actions"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
 
             <!-- CREATE EVENT -->
             <LinearLayout
                 android:id="@+id/createEventBtn"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
+                android:layout_weight="1"
                 android:background="@drawable/card_bg"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:clickable="true"
+                android:focusable="true">
 
                 <TextView
                     android:text="+"
@@ -130,13 +87,15 @@
             <!-- MY EVENTS -->
             <LinearLayout
                 android:id="@+id/myEventsBtn"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/card_bg"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:layout_marginStart="10dp">
+                android:clickable="true"
+                android:focusable="true">
 
                 <TextView
                     android:text="📋"
@@ -151,6 +110,13 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <!-- ✅ THIS WAS MISSING -->
+        <ListView
+            android:id="@+id/eventList"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="20dp"/>
 
     </LinearLayout>
 </ScrollView>

@@ -21,11 +21,7 @@ class LoginActivity : AppCompatActivity() {
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
         val roles = arrayOf("Admin", "Organizer", "Student")
-        spinner.adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_dropdown_item,
-            roles
-        )
+        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, roles)
 
         btnLogin.setOnClickListener {
 
@@ -38,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // ADMIN LOGIN
+            // ADMIN
             if (role == "Admin") {
                 if (db.checkAdmin(userEmail, userPassword)) {
                     startActivity(Intent(this, AdminDashboard::class.java))
@@ -48,14 +44,18 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // STUDENT / ORGANIZER
+            // USER
             val valid = db.checkUser(userEmail, userPassword, role)
 
             if (valid) {
                 if (role == "Organizer") {
-                    startActivity(Intent(this, OrganizerDashboard::class.java))
+                    val intent = Intent(this, OrganizerDashboard::class.java)
+                    intent.putExtra("organizer_name", userEmail)
+                    startActivity(intent)
                 } else {
-                    startActivity(Intent(this, StudentDashboard::class.java))
+                    val intent = Intent(this, StudentDashboard::class.java)
+                    intent.putExtra("email", userEmail)
+                    startActivity(intent)
                 }
             } else {
                 Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show()

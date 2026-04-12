@@ -7,32 +7,32 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DBHelper(context: Context) :
-    SQLiteOpenHelper(context, "EventDB", null, 4) {
+    SQLiteOpenHelper(context, "EventDB", null, 3) {
 
     override fun onCreate(db: SQLiteDatabase) {
 
-        // 🔹 STUDENTS
+        // STUDENTS
         db.execSQL(
             "CREATE TABLE students(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "name TEXT," +
-                    "email TEXT," +
+                    "email TEXT UNIQUE," +
                     "phone TEXT," +
                     "course TEXT," +
                     "year TEXT," +
                     "password TEXT)"
         )
 
-        // 🔹 ORGANIZERS
+        // ORGANIZERS
         db.execSQL(
             "CREATE TABLE organizers(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "name TEXT," +
-                    "email TEXT," +
+                    "email TEXT UNIQUE," +
                     "password TEXT)"
         )
 
-        // 🔹 EVENTS
+        // EVENTS
         db.execSQL(
             "CREATE TABLE events(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -46,7 +46,7 @@ class DBHelper(context: Context) :
                     "status TEXT)"
         )
 
-        // 🔹 ADMIN (ONLY ONE)
+        // ADMIN
         db.execSQL(
             "CREATE TABLE admin(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -54,11 +54,11 @@ class DBHelper(context: Context) :
                     "password TEXT)"
         )
 
-        // 🔥 INSERT DEFAULT ADMIN
-        val cv = ContentValues()
-        cv.put("email", "admin@gmail.com")
-        cv.put("password", "admin123")
-        db.insert("admin", null, cv)
+        // DEFAULT ADMIN
+        val admin = ContentValues()
+        admin.put("email", "admin@gmail.com")
+        admin.put("password", "admin123")
+        db.insert("admin", null, admin)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -69,45 +69,19 @@ class DBHelper(context: Context) :
         onCreate(db)
     }
 
-    // =========================
-    // INSERT STUDENT
-    // =========================
-    fun insertStudent(
-        name: String,
-        email: String,
-        phone: String,
-        course: String,
-        year: String,
-        password: String
-    ): Boolean {
-        val db = writableDatabase
-        val cv = ContentValues()
-        cv.put("name", name)
-        cv.put("email", email)
-        cv.put("phone", phone)
-        cv.put("course", course)
-        cv.put("year", year)
-        cv.put("password", password)
+    // ================= LOGIN =================
 
-        return db.insert("students", null, cv) != -1L
+    fun checkAdmin(email: String, password: String): Boolean {
+        val db = readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM admin WHERE email=? AND password=?",
+            arrayOf(email, password)
+        )
+        val exists = cursor.moveToFirst()
+        cursor.close()
+        return exists
     }
 
-    // =========================
-    // INSERT ORGANIZER
-    // =========================
-    fun insertOrganizer(name: String, email: String, password: String): Boolean {
-        val db = writableDatabase
-        val cv = ContentValues()
-        cv.put("name", name)
-        cv.put("email", email)
-        cv.put("password", password)
-
-        return db.insert("organizers", null, cv) != -1L
-    }
-
-    // =========================
-    // LOGIN (Student / Organizer)
-    // =========================
     fun checkUser(email: String, password: String, role: String): Boolean {
         val db = readableDatabase
         val table = if (role == "Student") "students" else "organizers"
@@ -122,14 +96,15 @@ class DBHelper(context: Context) :
         return exists
     }
 
-    // =========================
-    // ADMIN LOGIN
-    // =========================
-    fun checkAdmin(email: String, password: String): Boolean {
+    // ================= CHECK EMAIL =================
+
+    fun isEmailExists(email: String, role: String): Boolean {
         val db = readableDatabase
+        val table = if (role == "Student") "students" else "organizers"
+
         val cursor = db.rawQuery(
-            "SELECT * FROM admin WHERE email=? AND password=?",
-            arrayOf(email, password)
+            "SELECT * FROM $table WHERE email=?",
+            arrayOf(email)
         )
 
         val exists = cursor.moveToFirst()
@@ -137,9 +112,44 @@ class DBHelper(context: Context) :
         return exists
     }
 
-    // =========================
-    // INSERT EVENT
-    // =========================
+    // ================= INSERT STUDENT =================
+
+    fun insertStudent(
+        name: String,
+        email: String,
+        phone: String,
+        course: String,
+        year: String,
+        password: String
+    ): Boolean {
+        val db = writableDatabase
+        val cv = ContentValues()
+
+        cv.put("name", name)
+        cv.put("email", email)
+        cv.put("phone", phone)
+        cv.put("course", course)
+        cv.put("year", year)
+        cv.put("password", password)
+
+        return db.insert("students", null, cv) != -1L
+    }
+
+    // ================= INSERT ORGANIZER =================
+
+    fun insertOrganizer(name: String, email: String, password: String): Boolean {
+        val db = writableDatabase
+        val cv = ContentValues()
+
+        cv.put("name", name)
+        cv.put("email", email)
+        cv.put("password", password)
+
+        return db.insert("organizers", null, cv) != -1L
+    }
+
+    // ================= INSERT EVENT =================
+
     fun insertEvent(
         title: String,
         category: String,
@@ -164,33 +174,23 @@ class DBHelper(context: Context) :
         return db.insert("events", null, cv) != -1L
     }
 
-    // =========================
-    // ADMIN: GET PENDING EVENTS
-    // =========================
-    fun getPendingEvents(): Cursor {
-        val db = readableDatabase
-        return db.rawQuery("SELECT * FROM events WHERE status='Pending'", null)
+    // ================= EVENTS =================
+
+    fun getAllEvents(): Cursor {
+        return readableDatabase.rawQuery("SELECT * FROM events", null)
     }
 
-    // =========================
-    // UPDATE STATUS
-    // =========================
+    fun getPendingEvents(): Cursor {
+        return readableDatabase.rawQuery("SELECT * FROM events WHERE status='Pending'", null)
+    }
+
+    fun getApprovedEvents(): Cursor {
+        return readableDatabase.rawQuery("SELECT * FROM events WHERE status='Approved'", null)
+    }
+
     fun updateEventStatus(id: Int, status: String) {
-        val db = writableDatabase
         val cv = ContentValues()
         cv.put("status", status)
-
-        db.update("events", cv, "id=?", arrayOf(id.toString()))
-    }
-    // =========================
-// STUDENT: GET APPROVED EVENTS
-// =========================
-    fun getApprovedEvents(): Cursor {
-        val db = readableDatabase
-        return db.rawQuery("SELECT * FROM events WHERE status='Approved'", null)
-    }
-    fun getAllEvents(): Cursor {
-        val db = readableDatabase
-        return db.rawQuery("SELECT * FROM events", null)
+        writableDatabase.update("events", cv, "id=?", arrayOf(id.toString()))
     }
 }

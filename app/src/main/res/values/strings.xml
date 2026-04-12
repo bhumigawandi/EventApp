@@ -1,5 +1,8 @@
 <resources>
+    <string name="app_name">Event Manager</string>
+    <string name="tagline">Create, Manage and Join Events</string>
     <string name="login">Login</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="student_register">Student Register</string>
+    <string name="organizer_register">Organizer Register</string>
+    <string name="arrow">></string>
 </resources>

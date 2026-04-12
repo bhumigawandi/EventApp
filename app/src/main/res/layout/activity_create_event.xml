@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#F4F6FB"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F4F6FB">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Title -->
         <TextView
             android:text="Create Event"
             android:textSize="22sp"
@@ -19,21 +18,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <!-- Event Title -->
         <EditText
             android:id="@+id/etTitle"
             android:hint="Event Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- Category -->
         <Spinner
             android:id="@+id/spinnerCategory"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- Description -->
         <EditText
             android:id="@+id/etDescription"
             android:hint="Description"
@@ -42,15 +38,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- Date -->
         <EditText
             android:id="@+id/etDate"
-            android:hint="Date (dd-mm-yyyy)"
+            android:hint="Date"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- Time -->
         <EditText
             android:id="@+id/etTime"
             android:hint="Time"
@@ -58,7 +52,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- Venue -->
         <EditText
             android:id="@+id/etVenue"
             android:hint="Venue"
@@ -66,12 +59,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- Max Participants -->
         <EditText
             android:id="@+id/etMax"
             android:hint="Max Participants"
-            android:layout_marginTop="10dp"
             android:inputType="number"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- NEW FEATURES -->
+
+        <Button
+            android:id="@+id/btnUploadImage"
+            android:text="Upload Banner"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnCamera"
+            android:text="Capture Photo"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"/>
+
+        <EditText
+            android:id="@+id/etRules"
+            android:hint="Rules"
+            android:minLines="2"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etGuidelines"
+            android:hint="Guidelines"
+            android:minLines="2"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
