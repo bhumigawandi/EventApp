@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- NOTIFICATION -->
+    <item
+        android:id="@+id/notification"
+        android:title="Notifications"
+        android:icon="@android:drawable/ic_dialog_info"
+        app:showAsAction="always" />
+
+    <!-- DROPDOWN MENU -->
+    <item
+        android:id="@+id/more"
+        android:title="More"
+        android:icon="@android:drawable/ic_menu_more"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/settings"
+                android:title="Settings" />
+
+            <item
+                android:id="@+id/logout"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>
