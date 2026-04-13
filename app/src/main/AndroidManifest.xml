@@ -13,9 +13,8 @@
         android:label="Event App"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- ✅ LOGIN IS NOW LAUNCHER -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".HomeActivity"
             android:exported="true">
 
             <intent-filter>
@@ -26,7 +25,7 @@
         </activity>
 
         <!-- Other Activities -->
-        <activity android:name=".HomeActivity"/>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".OrganizerRegisterActivity"/>
         <activity android:name=".StudentRegisterActivity"/>
         <activity android:name=".AdminDashboard"/>

@@ -2,61 +2,110 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F6FB">
+    android:background="#EEF2FF">
 
     <LinearLayout
         android:orientation="vertical"
-        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Title -->
-        <TextView
-            android:text="Student Dashboard"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <!-- Logout -->
-        <TextView
-            android:id="@+id/logoutBtn"
-            android:text="Logout"
-            android:textColor="#FF0000"
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <!-- Buttons -->
+        <!-- 🔷 HEADER -->
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="#4F46E5">
+
+            <TextView
+                android:text="Welcome 👋"
+                android:textColor="#C7D2FE"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:text="Student Dashboard"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/logoutBtn"
+                    android:text="Logout"
+                    android:textColor="#FFCDD2"
+                    android:textStyle="bold"
+                    android:background="#7F1D1D"
+                    android:padding="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 🔳 MAIN CONTENT -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/eventsBtn"
-                android:text="Events"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <!-- BUTTONS -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="-40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- ALL EVENTS -->
+                <Button
+                    android:id="@+id/eventsBtn"
+                    android:text="All Events"
+                    android:textColor="#FFFFFF"
+                    android:background="#6366F1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="55dp"/>
+
+                <!-- MY EVENTS -->
+                <Button
+                    android:id="@+id/myEventsBtn"
+                    android:text="My Events"
+                    android:textColor="#FFFFFF"
+                    android:background="#10B981"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
+
+            <!-- SECTION TITLE -->
+            <TextView
+                android:text="Available Events"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#111827"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <Button
-                android:id="@+id/myEventsBtn"
-                android:text="My Events"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"/>
-        </LinearLayout>
+            <!-- EVENT LIST -->
+            <LinearLayout
+                android:id="@+id/eventContainer"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-        <!-- Container -->
-        <LinearLayout
-            android:id="@+id/eventContainer"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

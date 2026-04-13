@@ -8,43 +8,41 @@ class StudentListActivity : AppCompatActivity() {
 
     lateinit var db: DBHelper
     lateinit var listView: ListView
+    lateinit var emptyText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_student_list)
 
+        listView = findViewById(R.id.studentListView)
+        emptyText = findViewById(R.id.emptyText)
         db = DBHelper(this)
-        listView = findViewById(R.id.listView)
 
         val eventId = intent.getIntExtra("eventId", -1)
 
-        loadStudents(eventId)
-    }
-
-    private fun loadStudents(eventId: Int) {
+        // DEBUG
+        Toast.makeText(this, "Event ID: $eventId", Toast.LENGTH_SHORT).show()
 
         val cursor = db.getRegisteredStudents(eventId)
+
         val list = ArrayList<String>()
 
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
-                val email = cursor.getString(
-                    cursor.getColumnIndexOrThrow("userEmail")
-                )
-                list.add(email)
+                val email = cursor.getString(0)
+                list.add("👤 $email")
             } while (cursor.moveToNext())
-        } else {
-            list.add("No students registered")
         }
 
         cursor.close()
 
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            list
-        )
+        if (list.isEmpty()) {
+            emptyText.text = "No students registered"
+            emptyText.visibility = TextView.VISIBLE
+        } else {
+            emptyText.visibility = TextView.GONE
+        }
 
-        listView.adapter = adapter
+        listView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
     }
 }

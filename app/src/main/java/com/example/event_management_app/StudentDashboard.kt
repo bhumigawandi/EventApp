@@ -40,6 +40,7 @@ class StudentDashboard : AppCompatActivity() {
         if (cursor.moveToFirst()) {
             do {
                 val eventId = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                val title = cursor.getString(cursor.getColumnIndexOrThrow("title")) // ✅ FIX
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
                 val venue = cursor.getString(cursor.getColumnIndexOrThrow("venue"))
 
@@ -63,13 +64,20 @@ class StudentDashboard : AppCompatActivity() {
                 tvInfo.text = "$date • $venue"
 
                 val btnRegister = Button(this)
-                btnRegister.text = "Register"
+
+                if (db.isAlreadyRegistered(eventId, email)) {
+                    btnRegister.text = "Registered"
+                    btnRegister.isEnabled = false
+                } else {
+                    btnRegister.text = "Register"
+                }
 
                 btnRegister.setOnClickListener {
-
                     val result = db.registerEvent(eventId, email)
 
                     if (result) {
+                        btnRegister.text = "Registered"
+                        btnRegister.isEnabled = false
                         Toast.makeText(this, "Registered", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this, "Already Registered", Toast.LENGTH_SHORT).show()

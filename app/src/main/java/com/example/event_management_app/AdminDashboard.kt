@@ -3,10 +3,9 @@ package com.example.event_management_app
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 
 class AdminDashboard : AppCompatActivity() {
 
@@ -22,15 +21,9 @@ class AdminDashboard : AppCompatActivity() {
     private lateinit var approvedCount: TextView
     private lateinit var pendingText: TextView
 
-    private var lastClickTime = 0L
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_dashboard)
-
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         db = DBHelper(this)
 
@@ -45,9 +38,34 @@ class AdminDashboard : AppCompatActivity() {
         approvedCount = findViewById(R.id.approvedCount)
         pendingText = findViewById(R.id.pendingText)
 
+        val logoutBtn = findViewById<Button>(R.id.logoutBtn)
+
+        // ✅ CLICK FILTERS
         totalBox.setOnClickListener { loadEvents("ALL") }
         pendingBox.setOnClickListener { loadEvents("PENDING") }
         approvedBox.setOnClickListener { loadEvents("APPROVED") }
+
+        // ✅ LOGOUT ALERT
+        logoutBtn.setOnClickListener {
+
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Logout")
+            builder.setMessage("Are you sure you want to logout?")
+
+            builder.setPositiveButton("Yes") { _, _ ->
+                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            builder.setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            builder.show()
+        }
 
         loadEvents("PENDING")
         updateCounts()
@@ -101,33 +119,5 @@ class AdminDashboard : AppCompatActivity() {
         pendingCount.text = pending.toString()
         approvedCount.text = approved.toString()
         pendingText.text = "$pending events awaiting approval"
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.admin_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-
-            R.id.notification -> {
-                Toast.makeText(this, "Notifications", Toast.LENGTH_SHORT).show()
-                true
-            }
-
-            R.id.settings -> {
-                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
-                true
-            }
-
-            R.id.logout -> {
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-                true
-            }
-
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }

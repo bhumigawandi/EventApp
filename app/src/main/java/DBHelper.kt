@@ -59,7 +59,7 @@ class DBHelper(context: Context) :
         db.execSQL(
             "CREATE TABLE registrations(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "eventTitle TEXT," +
+                    "event_id INTEGER," +
                     "studentEmail TEXT)"
         )
 
@@ -187,28 +187,15 @@ class DBHelper(context: Context) :
 
     // ================= REGISTER EVENT =================
 
+
+
     fun registerEvent(eventId: Int, email: String): Boolean {
 
         val db = writableDatabase
 
-        // 🔹 GET TITLE FROM ID (ADD THIS)
-        val cursorEvent = db.rawQuery(
-            "SELECT title FROM events WHERE id=?",
-            arrayOf(eventId.toString())
-        )
-
-        if (!cursorEvent.moveToFirst()) {
-            cursorEvent.close()
-            return false
-        }
-
-        val title = cursorEvent.getString(0)
-        cursorEvent.close()
-
-        // 🔹 CHECK EXISTING
         val cursor = db.rawQuery(
-            "SELECT * FROM registrations WHERE eventTitle=? AND studentEmail=?",
-            arrayOf(title, email)
+            "SELECT * FROM registrations WHERE event_id=? AND studentEmail=?",
+            arrayOf(eventId.toString(), email)
         )
 
         if (cursor.count > 0) {
@@ -218,9 +205,8 @@ class DBHelper(context: Context) :
 
         cursor.close()
 
-        // 🔹 INSERT (USING OLD TABLE STRUCTURE)
         val values = ContentValues()
-        values.put("eventTitle", title)
+        values.put("event_id", eventId)   // ✅ IMPORTANT FIX
         values.put("studentEmail", email)
 
         db.insert("registrations", null, values)
@@ -271,21 +257,62 @@ class DBHelper(context: Context) :
     }
 
     // 🔹 GET STUDENTS FOR EVENT (BY ID)
+
+
+
     fun getRegisteredStudents(eventId: Int): Cursor {
 
-        val cursorEvent = readableDatabase.rawQuery(
+        return readableDatabase.rawQuery(
+            "SELECT studentEmail FROM registrations WHERE event_id=?",
+            arrayOf(eventId.toString())
+        )
+    }
+    fun isAlreadyRegistered(eventId: Int, email: String): Boolean {
+
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM registrations WHERE event_id=? AND studentEmail=?",
+            arrayOf(eventId.toString(), email)
+        )
+
+        val result = cursor.count > 0
+        cursor.close()
+        return result
+    }
+    fun getRegisteredEventsForOrganizer(): Cursor {
+
+        val db = this.readableDatabase
+
+        return db.rawQuery(
+            """
+        SELECT events.title, events.date, events.venue, registrations.email
+        FROM registrations
+        INNER JOIN events ON registrations.event_id = events.id
+        """.trimIndent(),
+            null
+        )
+    }
+
+
+    fun getStudentsForEvent(eventId: Int): Cursor {
+
+        val db = readableDatabase
+
+        // STEP 1: get title from event id
+        val cursorEvent = db.rawQuery(
             "SELECT title FROM events WHERE id=?",
             arrayOf(eventId.toString())
         )
 
         if (!cursorEvent.moveToFirst()) {
-            return readableDatabase.rawQuery("SELECT ''", null)
+            cursorEvent.close()
+            return db.rawQuery("SELECT ''", null)
         }
 
-        val title = cursorEvent.getString(0)
+        val title = cursorEvent.getString(0).trim()
         cursorEvent.close()
 
-        return readableDatabase.rawQuery(
+        // STEP 2: match with registrations
+        return db.rawQuery(
             "SELECT studentEmail FROM registrations WHERE eventTitle=?",
             arrayOf(title)
         )
