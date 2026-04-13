@@ -260,9 +260,14 @@ class DBHelper(context: Context) :
     }
 
     fun getStudentsForEvent(eventId: Int): Cursor {
-
         return readableDatabase.rawQuery(
-            "SELECT studentEmail FROM registrations WHERE event_id=?",
+            """
+        SELECT students.name, students.email 
+        FROM students
+        INNER JOIN registrations 
+        ON students.email = registrations.studentEmail
+        WHERE registrations.event_id=?
+        """,
             arrayOf(eventId.toString())
         )
     }
