@@ -1,69 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#F4F6FB"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello Organizer"
+        android:textSize="20sp"
+        android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/createEventBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="Create Event"
+        android:layout_marginTop="20dp" />
 
-        <TextView
-            android:text="Organizer Dashboard"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
+    <Button
+        android:id="@+id/myEventsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Events"
+        android:layout_marginTop="10dp" />
 
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:text="Hello"
-            android:textSize="16sp"
-            android:layout_marginTop="6dp"/>
+    <ListView
+        android:id="@+id/eventList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp" />
 
-        <!-- Buttons -->
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/btnCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Capture Image"
+        android:layout_marginTop="10dp"/>
 
-            <LinearLayout
-                android:id="@+id/createEventBtn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="90dp"
-                android:background="#6366F1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:text="Create Event"
-                    android:textColor="#FFFFFF"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/myEventsBtn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="90dp"
-                android:layout_marginStart="10dp"
-                android:background="#10B981"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:text="My Events"
-                    android:textColor="#FFFFFF"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- EVENT LIST -->
-        <ListView
-            android:id="@+id/eventList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"/>
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

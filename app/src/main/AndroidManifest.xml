@@ -2,38 +2,38 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.event_management_app">
 
-    <!-- Permissions -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:label="Event App"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <activity
-            android:name=".HomeActivity"
-            android:exported="true">
-
+        <activity android:name=".HomeActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
 
-        <!-- Other Activities -->
         <activity android:name=".LoginActivity"/>
-        <activity android:name=".OrganizerRegisterActivity"/>
-        <activity android:name=".StudentRegisterActivity"/>
-        <activity android:name=".AdminDashboard"/>
         <activity android:name=".OrganizerDashboard"/>
-        <activity android:name=".StudentDashboard"/>
-        <activity android:name=".CreateEventActivity"/>
-        <activity android:name=".MyEventsActivity"/>
-        <activity android:name=".StudentListActivity"/>
+        <activity android:name=".CameraActivity"/>
+
+        <!-- ✅ Correct FileProvider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
     </application>
 
 </manifest>

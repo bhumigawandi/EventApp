@@ -1,7 +1,5 @@
 package com.example.event_management_app
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -31,18 +29,20 @@ class CreateEventActivity : AppCompatActivity() {
 
     var imageUri: Uri? = null
 
-    // 📸 CAMERA
+    // ✅ CAMERA (SAFE)
     val cameraLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val bitmap = result.data?.extras?.get("data") as Bitmap
+        ActivityResultContracts.TakePicturePreview()
+    ) { bitmap: Bitmap? ->
+
+        if (bitmap != null) {
             imgView.setImageBitmap(bitmap)
             imageUri = getImageUri(bitmap)
+        } else {
+            Toast.makeText(this, "Camera failed", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // 📁 GALLERY
+    // ✅ GALLERY
     val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
@@ -56,7 +56,6 @@ class CreateEventActivity : AppCompatActivity() {
 
         db = DBHelper(this)
 
-        // ✅ FIXED IDS
         etTitle = findViewById(R.id.etTitle)
         spinnerCategory = findViewById(R.id.spinnerCategory)
         etDesc = findViewById(R.id.etDescription)
@@ -72,7 +71,7 @@ class CreateEventActivity : AppCompatActivity() {
         btnCamera = findViewById(R.id.btnCamera)
         btnSubmit = findViewById(R.id.btnSubmit)
 
-        // 🔹 Spinner Data
+        // Spinner
         val categories = arrayOf("Tech", "Sports", "Cultural", "Workshop")
         spinnerCategory.adapter = ArrayAdapter(
             this,
@@ -80,18 +79,17 @@ class CreateEventActivity : AppCompatActivity() {
             categories
         )
 
-        // 📁 Upload Image
+        // Gallery
         btnUploadImage.setOnClickListener {
             galleryLauncher.launch("image/*")
         }
 
-        // 📸 Camera
+        // Camera
         btnCamera.setOnClickListener {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            cameraLauncher.launch(intent)
+            cameraLauncher.launch(null)
         }
 
-        // ✅ SUBMIT
+        // Submit
         btnSubmit.setOnClickListener {
 
             val title = etTitle.text.toString()
@@ -110,30 +108,22 @@ class CreateEventActivity : AppCompatActivity() {
             }
 
             val image = imageUri?.toString() ?: ""
-
-            val finalDesc = desc + "\n\nRules: $rules\nGuidelines: $guidelines"
+            val finalDesc = "$desc\n\nRules: $rules\nGuidelines: $guidelines"
 
             val result = db.insertEvent(
-                title,
-                cat,
-                finalDesc,
-                date,
-                time,
-                venue,
-                max,
-                image
+                title, cat, finalDesc, date, time, venue, max, image
             )
 
             if (result) {
-                Toast.makeText(this, "Event Created", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Event Created ✅", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed ❌", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    // 🔹 Bitmap → URI
+    // ✅ Convert bitmap to URI
     private fun getImageUri(bitmap: Bitmap): Uri {
         val path = MediaStore.Images.Media.insertImage(
             contentResolver,
@@ -141,6 +131,7 @@ class CreateEventActivity : AppCompatActivity() {
             "EventImage",
             null
         )
-        return Uri.parse(path)
+
+        return if (path != null) Uri.parse(path) else Uri.EMPTY
     }
 }
