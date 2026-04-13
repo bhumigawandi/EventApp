@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DBHelper(context: Context) :
-    SQLiteOpenHelper(context, "EventDB", null, 3) {
+    SQLiteOpenHelper(context, "EventDB", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
 
@@ -32,7 +32,7 @@ class DBHelper(context: Context) :
                     "password TEXT)"
         )
 
-        // EVENTS
+        // EVENTS (✅ image added)
         db.execSQL(
             "CREATE TABLE events(" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -43,6 +43,7 @@ class DBHelper(context: Context) :
                     "time TEXT," +
                     "venue TEXT," +
                     "maxParticipants TEXT," +
+                    "image TEXT," +
                     "status TEXT)"
         )
 
@@ -52,6 +53,14 @@ class DBHelper(context: Context) :
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "email TEXT UNIQUE," +
                     "password TEXT)"
+        )
+
+        // REGISTRATION (✅ only once)
+        db.execSQL(
+            "CREATE TABLE registrations(" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "eventTitle TEXT," +
+                    "studentEmail TEXT)"
         )
 
         // DEFAULT ADMIN
@@ -65,6 +74,7 @@ class DBHelper(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS students")
         db.execSQL("DROP TABLE IF EXISTS organizers")
         db.execSQL("DROP TABLE IF EXISTS events")
+        db.execSQL("DROP TABLE IF EXISTS registrations")
         db.execSQL("DROP TABLE IF EXISTS admin")
         onCreate(db)
     }
@@ -72,8 +82,7 @@ class DBHelper(context: Context) :
     // ================= LOGIN =================
 
     fun checkAdmin(email: String, password: String): Boolean {
-        val db = readableDatabase
-        val cursor = db.rawQuery(
+        val cursor = readableDatabase.rawQuery(
             "SELECT * FROM admin WHERE email=? AND password=?",
             arrayOf(email, password)
         )
@@ -83,28 +92,11 @@ class DBHelper(context: Context) :
     }
 
     fun checkUser(email: String, password: String, role: String): Boolean {
-        val db = readableDatabase
         val table = if (role == "Student") "students" else "organizers"
 
-        val cursor = db.rawQuery(
+        val cursor = readableDatabase.rawQuery(
             "SELECT * FROM $table WHERE email=? AND password=?",
             arrayOf(email, password)
-        )
-
-        val exists = cursor.moveToFirst()
-        cursor.close()
-        return exists
-    }
-
-    // ================= CHECK EMAIL =================
-
-    fun isEmailExists(email: String, role: String): Boolean {
-        val db = readableDatabase
-        val table = if (role == "Student") "students" else "organizers"
-
-        val cursor = db.rawQuery(
-            "SELECT * FROM $table WHERE email=?",
-            arrayOf(email)
         )
 
         val exists = cursor.moveToFirst()
@@ -122,9 +114,8 @@ class DBHelper(context: Context) :
         year: String,
         password: String
     ): Boolean {
-        val db = writableDatabase
-        val cv = ContentValues()
 
+        val cv = ContentValues()
         cv.put("name", name)
         cv.put("email", email)
         cv.put("phone", phone)
@@ -132,23 +123,22 @@ class DBHelper(context: Context) :
         cv.put("year", year)
         cv.put("password", password)
 
-        return db.insert("students", null, cv) != -1L
+        return writableDatabase.insert("students", null, cv) != -1L
     }
 
     // ================= INSERT ORGANIZER =================
 
     fun insertOrganizer(name: String, email: String, password: String): Boolean {
-        val db = writableDatabase
-        val cv = ContentValues()
 
+        val cv = ContentValues()
         cv.put("name", name)
         cv.put("email", email)
         cv.put("password", password)
 
-        return db.insert("organizers", null, cv) != -1L
+        return writableDatabase.insert("organizers", null, cv) != -1L
     }
 
-    // ================= INSERT EVENT =================
+    // ================= INSERT EVENT (WITH IMAGE) =================
 
     fun insertEvent(
         title: String,
@@ -157,11 +147,11 @@ class DBHelper(context: Context) :
         date: String,
         time: String,
         venue: String,
-        max: String
+        max: String,
+        image: String
     ): Boolean {
-        val db = writableDatabase
-        val cv = ContentValues()
 
+        val cv = ContentValues()
         cv.put("title", title)
         cv.put("category", category)
         cv.put("description", description)
@@ -169,9 +159,10 @@ class DBHelper(context: Context) :
         cv.put("time", time)
         cv.put("venue", venue)
         cv.put("maxParticipants", max)
+        cv.put("image", image)
         cv.put("status", "Pending")
 
-        return db.insert("events", null, cv) != -1L
+        return writableDatabase.insert("events", null, cv) != -1L
     }
 
     // ================= EVENTS =================
@@ -193,4 +184,110 @@ class DBHelper(context: Context) :
         cv.put("status", status)
         writableDatabase.update("events", cv, "id=?", arrayOf(id.toString()))
     }
-}
+
+    // ================= REGISTER EVENT =================
+
+    fun registerEvent(eventId: Int, email: String): Boolean {
+
+        val db = writableDatabase
+
+        // 🔹 GET TITLE FROM ID (ADD THIS)
+        val cursorEvent = db.rawQuery(
+            "SELECT title FROM events WHERE id=?",
+            arrayOf(eventId.toString())
+        )
+
+        if (!cursorEvent.moveToFirst()) {
+            cursorEvent.close()
+            return false
+        }
+
+        val title = cursorEvent.getString(0)
+        cursorEvent.close()
+
+        // 🔹 CHECK EXISTING
+        val cursor = db.rawQuery(
+            "SELECT * FROM registrations WHERE eventTitle=? AND studentEmail=?",
+            arrayOf(title, email)
+        )
+
+        if (cursor.count > 0) {
+            cursor.close()
+            return false
+        }
+
+        cursor.close()
+
+        // 🔹 INSERT (USING OLD TABLE STRUCTURE)
+        val values = ContentValues()
+        values.put("eventTitle", title)
+        values.put("studentEmail", email)
+
+        db.insert("registrations", null, values)
+        return true
+    }
+    // ================= COUNT =================
+
+
+
+    // ================= MY EVENTS =================
+
+
+
+    // 🔹 GET REGISTERED EVENTS FOR USER
+    fun getMyEvents(email: String): Cursor {
+        return readableDatabase.rawQuery("""
+        SELECT events.* FROM events 
+        INNER JOIN registrations 
+        ON events.title = registrations.eventTitle
+        WHERE registrations.userEmail=?
+    """, arrayOf(email))
+    }
+
+    // 🔹 COUNT STUDENTS PER EVENT
+    fun getEventCount(eventId: Int): Int {
+
+        val cursorEvent = readableDatabase.rawQuery(
+            "SELECT title FROM events WHERE id=?",
+            arrayOf(eventId.toString())
+        )
+
+        if (!cursorEvent.moveToFirst()) {
+            cursorEvent.close()
+            return 0
+        }
+
+        val title = cursorEvent.getString(0)
+        cursorEvent.close()
+
+        val cursor = readableDatabase.rawQuery(
+            "SELECT * FROM registrations WHERE eventTitle=?",
+            arrayOf(title)
+        )
+
+        val count = cursor.count
+        cursor.close()
+        return count
+    }
+
+    // 🔹 GET STUDENTS FOR EVENT (BY ID)
+    fun getRegisteredStudents(eventId: Int): Cursor {
+
+        val cursorEvent = readableDatabase.rawQuery(
+            "SELECT title FROM events WHERE id=?",
+            arrayOf(eventId.toString())
+        )
+
+        if (!cursorEvent.moveToFirst()) {
+            return readableDatabase.rawQuery("SELECT ''", null)
+        }
+
+        val title = cursorEvent.getString(0)
+        cursorEvent.close()
+
+        return readableDatabase.rawQuery(
+            "SELECT studentEmail FROM registrations WHERE eventTitle=?",
+            arrayOf(title)
+        )
+    }
+    }

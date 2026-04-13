@@ -2,79 +2,41 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F6FB">
+    android:padding="16dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <!-- Card -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvTitle"
+            android:text="Title"
+            android:textSize="22sp"
+            android:textStyle="bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/card_bg"
-            android:padding="20dp">
+            android:layout_height="wrap_content"/>
 
-            <!-- Title -->
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tech Talk 2025"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="#000"/>
+        <TextView
+            android:id="@+id/tvDate"
+            android:text="Date"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-            <!-- Category / Date -->
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Cultural • Dec 20"
-                android:textColor="#666"
-                android:layout_marginTop="6dp"/>
+        <TextView
+            android:id="@+id/tvVenue"
+            android:text="Venue"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-            <!-- Location -->
-            <TextView
-                android:id="@+id/tvLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="📍 Auditorium"
-                android:textColor="#444"
-                android:layout_marginTop="6dp"/>
-
-            <!-- Description -->
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Event description here..."
-                android:textColor="#555"
-                android:layout_marginTop="12dp"/>
-
-            <!-- Seats / Info Row -->
-            <TextView
-                android:id="@+id/tvExtra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="150 seats available"
-                android:textColor="#888"
-                android:layout_marginTop="10dp"/>
-
-            <!-- Register Button -->
-            <Button
-                android:id="@+id/btnRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Register"
-                android:textColor="#FFF"
-                android:backgroundTint="#6C63FF"
-                android:layout_marginTop="16dp"/>
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvDescription"
+            android:text="Description"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </ScrollView>

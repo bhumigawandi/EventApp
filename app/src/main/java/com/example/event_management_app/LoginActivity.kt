@@ -21,7 +21,11 @@ class LoginActivity : AppCompatActivity() {
         val btnLogin = findViewById<Button>(R.id.btnLogin)
 
         val roles = arrayOf("Admin", "Organizer", "Student")
-        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, roles)
+        spinner.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            roles
+        )
 
         btnLogin.setOnClickListener {
 
@@ -29,34 +33,50 @@ class LoginActivity : AppCompatActivity() {
             val userPassword = password.text.toString().trim()
             val role = spinner.selectedItem.toString()
 
-            if (userEmail.isEmpty() || userPassword.isEmpty()) {
-                Toast.makeText(this, "Enter email & password", Toast.LENGTH_SHORT).show()
+            // ✅ VALIDATION
+            if (userEmail.isEmpty()) {
+                email.error = "Enter email"
                 return@setOnClickListener
             }
 
-            // ADMIN
+            if (userPassword.isEmpty()) {
+                password.error = "Enter password"
+                return@setOnClickListener
+            }
+
+            // ================= ADMIN =================
             if (role == "Admin") {
+
                 if (db.checkAdmin(userEmail, userPassword)) {
                     startActivity(Intent(this, AdminDashboard::class.java))
+                    finish()
                 } else {
                     Toast.makeText(this, "Invalid Admin credentials", Toast.LENGTH_SHORT).show()
                 }
+
                 return@setOnClickListener
             }
 
-            // USER
+            // ================= STUDENT / ORGANIZER =================
             val valid = db.checkUser(userEmail, userPassword, role)
 
             if (valid) {
+
                 if (role == "Organizer") {
+
                     val intent = Intent(this, OrganizerDashboard::class.java)
                     intent.putExtra("organizer_name", userEmail)
                     startActivity(intent)
+                    finish()
+
                 } else {
+
                     val intent = Intent(this, StudentDashboard::class.java)
                     intent.putExtra("email", userEmail)
                     startActivity(intent)
+                    finish()
                 }
+
             } else {
                 Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show()
             }

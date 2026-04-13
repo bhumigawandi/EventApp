@@ -44,15 +44,17 @@ class OrganizerDashboard : AppCompatActivity() {
 
         val cursor: Cursor = db.getAllEvents()
         val list = ArrayList<String>()
+        val eventIds = ArrayList<Int>()
 
         if (cursor.moveToFirst()) {
             do {
+                val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
                 val title = cursor.getString(cursor.getColumnIndexOrThrow("title"))
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
                 val venue = cursor.getString(cursor.getColumnIndexOrThrow("venue"))
-                val status = cursor.getString(cursor.getColumnIndexOrThrow("status")) // ✅ FIXED
 
-                list.add("$title\n$date | $venue\nStatus: $status")
+                list.add("$title\n$date | $venue")
+                eventIds.add(id)
 
             } while (cursor.moveToNext())
         }
@@ -61,8 +63,17 @@ class OrganizerDashboard : AppCompatActivity() {
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
         listView.adapter = adapter
-    }
 
+        // 🔥 CLICK EVENT
+        listView.setOnItemClickListener { _, _, position, _ ->
+
+            val eventId = eventIds[position]
+
+            val intent = Intent(this, StudentListActivity::class.java)
+            intent.putExtra("eventId", eventId)
+            startActivity(intent)
+        }
+    }
     override fun onResume() {
         super.onResume()
         loadEvents()

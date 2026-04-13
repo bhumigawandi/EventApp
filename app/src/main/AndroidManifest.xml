@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.event_management_app">
 
+    <!-- Permissions -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
     <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:label="Event App"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- Launcher Activity -->
+        <!-- ✅ LOGIN IS NOW LAUNCHER -->
         <activity
-            android:name=".HomeActivity"
+            android:name=".LoginActivity"
             android:exported="true">
 
             <intent-filter>
@@ -21,7 +25,8 @@
 
         </activity>
 
-        <activity android:name=".LoginActivity"/>
+        <!-- Other Activities -->
+        <activity android:name=".HomeActivity"/>
         <activity android:name=".OrganizerRegisterActivity"/>
         <activity android:name=".StudentRegisterActivity"/>
         <activity android:name=".AdminDashboard"/>
@@ -29,7 +34,7 @@
         <activity android:name=".StudentDashboard"/>
         <activity android:name=".CreateEventActivity"/>
         <activity android:name=".MyEventsActivity"/>
-
+        <activity android:name=".StudentListActivity"/>
     </application>
 
 </manifest>

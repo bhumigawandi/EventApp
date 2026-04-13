@@ -33,7 +33,6 @@
         <EditText
             android:id="@+id/etDescription"
             android:hint="Description"
-            android:minLines="3"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -67,18 +66,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!-- NEW FEATURES -->
+        <EditText
+            android:id="@+id/etRules"
+            android:hint="Rules"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etGuidelines"
+            android:hint="Guidelines"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnUploadImage"
-            android:text="Upload Banner"
-            android:layout_marginTop="12dp"
+            android:text="Upload Image"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnCamera"
-            android:text="Capture Photo"
+            android:text="Capture Image"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -88,28 +99,11 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="10dp"
-            android:scaleType="centerCrop"/>
+            android:background="#DDD"/>
 
-        <EditText
-            android:id="@+id/etRules"
-            android:hint="Rules"
-            android:minLines="2"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/etGuidelines"
-            android:hint="Guidelines"
-            android:minLines="2"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Submit -->
         <Button
             android:id="@+id/btnSubmit"
-            android:text="Submit for Approval"
+            android:text="Submit"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

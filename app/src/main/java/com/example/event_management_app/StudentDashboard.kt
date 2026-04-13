@@ -10,6 +10,7 @@ class StudentDashboard : AppCompatActivity() {
 
     lateinit var db: DBHelper
     lateinit var container: LinearLayout
+    lateinit var email: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,8 +21,7 @@ class StudentDashboard : AppCompatActivity() {
         val logoutBtn = findViewById<TextView>(R.id.logoutBtn)
         container = findViewById(R.id.eventContainer)
 
-        val email = intent.getStringExtra("email")
-        Toast.makeText(this, "Welcome $email", Toast.LENGTH_SHORT).show()
+        email = intent.getStringExtra("email") ?: ""
 
         loadEvents()
 
@@ -35,18 +35,18 @@ class StudentDashboard : AppCompatActivity() {
 
         container.removeAllViews()
 
-        val cursor = db.getApprovedEvents()
+        val cursor = db.getAllEvents()
 
         if (cursor.moveToFirst()) {
             do {
-                val title = cursor.getString(cursor.getColumnIndexOrThrow("title"))
+                val eventId = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
                 val venue = cursor.getString(cursor.getColumnIndexOrThrow("venue"))
 
                 val card = LinearLayout(this)
                 card.orientation = LinearLayout.VERTICAL
                 card.setPadding(20, 20, 20, 20)
-                card.setBackgroundResource(R.drawable.card_bg)
+                card.setBackgroundColor(0xFFFFFFFF.toInt())
 
                 val params = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -57,22 +57,28 @@ class StudentDashboard : AppCompatActivity() {
 
                 val tvTitle = TextView(this)
                 tvTitle.text = title
-                tvTitle.textSize = 16f
+                tvTitle.textSize = 18f
 
                 val tvInfo = TextView(this)
                 tvInfo.text = "$date • $venue"
 
-                // Click → Detail page
-                card.setOnClickListener {
-                    val intent = Intent(this, EventDetailActivity::class.java)
-                    intent.putExtra("title", title)
-                    intent.putExtra("date", date)
-                    intent.putExtra("venue", venue)
-                    startActivity(intent)
+                val btnRegister = Button(this)
+                btnRegister.text = "Register"
+
+                btnRegister.setOnClickListener {
+
+                    val result = db.registerEvent(eventId, email)
+
+                    if (result) {
+                        Toast.makeText(this, "Registered", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Already Registered", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 card.addView(tvTitle)
                 card.addView(tvInfo)
+                card.addView(btnRegister)
 
                 container.addView(card)
 
