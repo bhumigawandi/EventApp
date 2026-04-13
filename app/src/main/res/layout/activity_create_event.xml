@@ -2,141 +2,170 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F6FB">
+    android:background="#EEF2FF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
-        <!-- TITLE -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/create_event"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"/>
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="#4F46E5"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <!-- TITLE -->
-        <EditText
-            android:id="@+id/etTitle"
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Event"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/subTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fill details to publish event"
+                android:textColor="#C7D2FE"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- FORM -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/event_title"
-            android:inputType="text"
-            android:autofillHints="name"/>
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="-40dp"
+            android:background="#FFFFFF"
+            android:elevation="6dp">
 
-        <!-- CATEGORY -->
-        <Spinner
-            android:id="@+id/spinnerCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Event Title"
+                android:background="#F3F4F6"
+                android:padding="12dp" />
 
-        <!-- DESCRIPTION -->
-        <EditText
-            android:id="@+id/etDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/description"
-            android:inputType="textMultiLine"
-            android:autofillHints="none"/>
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="#F3F4F6"
+                android:padding="10dp" />
 
-        <!-- DATE -->
-        <EditText
-            android:id="@+id/etDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/select_date"
-            android:focusable="false"
-            android:clickable="true"
-            android:autofillHints="none"
-            android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
+                android:layout_marginTop="10dp"
+                android:hint="Description"
+                android:background="#F3F4F6"
+                android:padding="12dp" />
 
-        <!-- TIME -->
-        <EditText
-            android:id="@+id/etTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/time"
-            android:inputType="time"
-            android:autofillHints="none"
-            android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Select Date"
+                android:background="#F3F4F6"
+                android:padding="12dp"
+                android:focusable="false"
+                android:clickable="true" />
 
-        <!-- VENUE -->
-        <EditText
-            android:id="@+id/etVenue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/venue"
-            android:inputType="text"
-            android:autofillHints="postalAddress"
-            android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/etTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Time"
+                android:background="#F3F4F6"
+                android:padding="12dp" />
 
-        <!-- MAX -->
-        <EditText
-            android:id="@+id/etMax"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/max_participants"
-            android:inputType="number"
-            android:autofillHints="none"
-            android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/etVenue"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Venue"
+                android:background="#F3F4F6"
+                android:padding="12dp" />
 
-        <!-- RULES -->
-        <EditText
-            android:id="@+id/etRules"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/rules"
-            android:inputType="text"
-            android:autofillHints="none"
-            android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/etMax"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Max Participants"
+                android:inputType="number"
+                android:background="#F3F4F6"
+                android:padding="12dp" />
 
-        <!-- GUIDELINES -->
-        <EditText
-            android:id="@+id/etGuidelines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/guidelines"
-            android:inputType="text"
-            android:autofillHints="none"
-            android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/etRules"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Rules"
+                android:background="#F3F4F6"
+                android:padding="12dp" />
 
-        <!-- UPLOAD -->
-        <Button
-            android:id="@+id/btnUploadImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/upload_image"
-            android:layout_marginTop="12dp"/>
+            <EditText
+                android:id="@+id/etGuidelines"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:hint="Guidelines"
+                android:background="#F3F4F6"
+                android:padding="12dp" />
 
-        <!-- CAMERA -->
-        <Button
-            android:id="@+id/btnCamera"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/capture_image"
-            android:layout_marginTop="10dp"/>
+            <!-- BUTTONS -->
+            <Button
+                android:id="@+id/btnUploadImage"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:text="Upload Image"
+                android:backgroundTint="#6366F1"
+                android:textColor="#FFFFFF" />
 
-        <!-- IMAGE -->
-        <ImageView
-            android:id="@+id/imgPreview"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="10dp"
-            android:background="#CCCCCC"
-            android:contentDescription="@string/event_image"/>
+            <Button
+                android:id="@+id/btnCamera"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:text="Capture Image"
+                android:backgroundTint="#10B981"
+                android:textColor="#FFFFFF" />
 
-        <!-- SUBMIT -->
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/submit"
-            android:layout_marginTop="20dp"/>
+            <ImageView
+                android:id="@+id/imgPreview"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC"
+                android:contentDescription="event image" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="20dp"
+                android:text="Create Event"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#4F46E5" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

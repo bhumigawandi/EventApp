@@ -5,8 +5,8 @@ import android.database.Cursor
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 
 class OrganizerDashboard : AppCompatActivity() {
 
@@ -17,11 +17,7 @@ class OrganizerDashboard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_organizer_dashboard)
 
-        // 🔔 Notification channel
         NotificationHelper.createChannel(this)
-
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
 
         val name = intent.getStringExtra("organizer_name") ?: "Organizer"
 
@@ -29,6 +25,8 @@ class OrganizerDashboard : AppCompatActivity() {
         val createEventBtn = findViewById<Button>(R.id.createEventBtn)
         val myEventsBtn = findViewById<Button>(R.id.myEventsBtn)
         val cameraBtn = findViewById<Button>(R.id.btnCamera)
+        val logoutBtn = findViewById<Button>(R.id.logoutBtn)
+        val allStudentsBtn = findViewById<Button>(R.id.allStudentsBtn)
 
         container = findViewById(R.id.mainContainer)
 
@@ -36,6 +34,20 @@ class OrganizerDashboard : AppCompatActivity() {
 
         db = DBHelper(this)
 
+        // 🔴 LOGOUT
+        logoutBtn.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes") { _, _ ->
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
+        // CREATE EVENT
         createEventBtn.setOnClickListener {
             startActivity(Intent(this, CreateEventActivity::class.java))
 
@@ -46,32 +58,26 @@ class OrganizerDashboard : AppCompatActivity() {
             )
         }
 
+        // CAMERA
         cameraBtn.setOnClickListener {
             startActivity(Intent(this, CameraActivity::class.java))
         }
 
+        // MY EVENTS
         myEventsBtn.setOnClickListener {
             loadMyEvents()
         }
 
+        // ALL STUDENTS
+        allStudentsBtn.setOnClickListener {
+            loadAllStudents()
+        }
+
+        // Default load
         loadEvents()
     }
 
-    // 🔹 MENU
-    override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_dashboard, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-        if (item.itemId == R.id.menu_logout) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
-        return true
-    }
-
-    // 🔹 Show events + students
+    // 🔹 SHOW EVENTS + STUDENTS
     private fun loadEvents() {
 
         container.removeAllViews()
@@ -89,7 +95,6 @@ class OrganizerDashboard : AppCompatActivity() {
                 card.orientation = LinearLayout.VERTICAL
                 card.setPadding(25, 25, 25, 25)
                 card.setBackgroundResource(android.R.drawable.dialog_holo_light_frame)
-                card.elevation = 8f
 
                 val params = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -109,7 +114,6 @@ class OrganizerDashboard : AppCompatActivity() {
                 btnView.text = "View Students"
 
                 val studentList = TextView(this)
-                studentList.setPadding(0, 10, 0, 0)
 
                 btnView.setOnClickListener {
 
@@ -128,14 +132,7 @@ class OrganizerDashboard : AppCompatActivity() {
                     }
 
                     studentCursor.close()
-
                     studentList.text = data.toString()
-
-                    NotificationHelper.showNotification(
-                        this,
-                        "Students Loaded",
-                        "Showing registered students"
-                    )
                 }
 
                 card.addView(tvTitle)
@@ -155,7 +152,7 @@ class OrganizerDashboard : AppCompatActivity() {
         cursor.close()
     }
 
-    // 🔹 My Events (full details)
+    // 🔹 MY EVENTS
     private fun loadMyEvents() {
 
         container.removeAllViews()
@@ -176,11 +173,9 @@ class OrganizerDashboard : AppCompatActivity() {
                 card.orientation = LinearLayout.VERTICAL
                 card.setPadding(25, 25, 25, 25)
                 card.setBackgroundResource(android.R.drawable.dialog_holo_light_frame)
-                card.elevation = 8f
 
                 val tvTitle = TextView(this)
                 tvTitle.text = "Title: $title"
-                tvTitle.textSize = 18f
 
                 val tvCategory = TextView(this)
                 tvCategory.text = "Category: $category"
@@ -214,6 +209,36 @@ class OrganizerDashboard : AppCompatActivity() {
         } else {
             val empty = TextView(this)
             empty.text = "No events found"
+            container.addView(empty)
+        }
+
+        cursor.close()
+    }
+
+    // 🔹 ALL STUDENTS LIST
+    private fun loadAllStudents() {
+
+        container.removeAllViews()
+
+        val cursor = db.getRegisteredEventsForOrganizer()
+
+        if (cursor.moveToFirst()) {
+            do {
+                val title = cursor.getString(0)
+                val date = cursor.getString(1)
+                val venue = cursor.getString(2)
+                val email = cursor.getString(3)
+
+                val tv = TextView(this)
+                tv.text = "Event: $title\n$date | $venue\nStudent: $email\n"
+                tv.setPadding(10, 10, 10, 20)
+
+                container.addView(tv)
+
+            } while (cursor.moveToNext())
+        } else {
+            val empty = TextView(this)
+            empty.text = "No student registrations"
             container.addView(empty)
         }
 
