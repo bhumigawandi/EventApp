@@ -14,7 +14,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!-- MAIN -->
-        <activity android:name=".HomeActivity" android:exported="true">
+        <activity android:name=".HomepageActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -23,7 +23,9 @@
 
         <!-- LOGIN -->
         <activity android:name=".LoginActivity"/>
-
+        <!-- ADD THIS -->
+        <activity android:name=".StudentRegisterActivity"/>
+        <activity android:name=".OrganizerRegisterActivity"/>
         <!-- DASHBOARDS -->
         <activity android:name=".AdminDashboard"/>
         <activity android:name=".OrganizerDashboard"/>
