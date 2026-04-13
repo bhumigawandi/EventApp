@@ -1,112 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#F4F6FB"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F4F6FB">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
+        <!-- TITLE -->
         <TextView
-            android:text="Create Event"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/create_event"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
 
+        <!-- TITLE -->
         <EditText
             android:id="@+id/etTitle"
-            android:hint="Event Title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/event_title"
+            android:inputType="text"
+            android:autofillHints="name"/>
 
+        <!-- CATEGORY -->
         <Spinner
             android:id="@+id/spinnerCategory"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
+        <!-- DESCRIPTION -->
         <EditText
             android:id="@+id/etDescription"
-            android:hint="Description"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:autofillHints="none"/>
 
+        <!-- DATE -->
         <EditText
             android:id="@+id/etDate"
-            android:hint="Date"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/select_date"
+            android:focusable="false"
+            android:clickable="true"
+            android:autofillHints="none"
+            android:layout_marginTop="10dp"/>
 
+        <!-- TIME -->
         <EditText
             android:id="@+id/etTime"
-            android:hint="Time"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/time"
+            android:inputType="time"
+            android:autofillHints="none"
+            android:layout_marginTop="10dp"/>
 
+        <!-- VENUE -->
         <EditText
             android:id="@+id/etVenue"
-            android:hint="Venue"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/venue"
+            android:inputType="text"
+            android:autofillHints="postalAddress"
+            android:layout_marginTop="10dp"/>
 
+        <!-- MAX -->
         <EditText
             android:id="@+id/etMax"
-            android:hint="Max Participants"
-            android:inputType="number"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/max_participants"
+            android:inputType="number"
+            android:autofillHints="none"
+            android:layout_marginTop="10dp"/>
 
+        <!-- RULES -->
         <EditText
             android:id="@+id/etRules"
-            android:hint="Rules"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/rules"
+            android:inputType="text"
+            android:autofillHints="none"
+            android:layout_marginTop="10dp"/>
 
+        <!-- GUIDELINES -->
         <EditText
             android:id="@+id/etGuidelines"
-            android:hint="Guidelines"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:hint="@string/guidelines"
+            android:inputType="text"
+            android:autofillHints="none"
+            android:layout_marginTop="10dp"/>
 
+        <!-- UPLOAD -->
         <Button
             android:id="@+id/btnUploadImage"
-            android:text="Upload Image"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/upload_image"
+            android:layout_marginTop="12dp"/>
 
+        <!-- CAMERA -->
         <Button
             android:id="@+id/btnCamera"
-            android:text="Capture Image"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/capture_image"
+            android:layout_marginTop="10dp"/>
 
+        <!-- IMAGE -->
         <ImageView
             android:id="@+id/imgPreview"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="10dp"
-            android:background="#DDD"/>
+            android:background="#CCCCCC"
+            android:contentDescription="@string/event_image"/>
 
+        <!-- SUBMIT -->
         <Button
             android:id="@+id/btnSubmit"
-            android:text="Submit"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:layout_marginTop="20dp"/>
 
     </LinearLayout>
 </ScrollView>

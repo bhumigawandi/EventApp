@@ -5,12 +5,15 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:label="Event App"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <!-- MAIN -->
         <activity android:name=".HomeActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -18,11 +21,22 @@
             </intent-filter>
         </activity>
 
+        <!-- LOGIN -->
         <activity android:name=".LoginActivity"/>
+
+        <!-- DASHBOARDS -->
+        <activity android:name=".AdminDashboard"/>
         <activity android:name=".OrganizerDashboard"/>
+        <activity android:name=".StudentDashboard"/>
+
+        <!-- EVENT -->
+        <activity android:name=".CreateEventActivity"/>
+        <activity android:name=".StudentListActivity"/>
+
+        <!-- CAMERA -->
         <activity android:name=".CameraActivity"/>
 
-        <!-- ✅ Correct FileProvider -->
+        <!-- FILE PROVIDER -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

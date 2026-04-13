@@ -40,23 +40,20 @@ class AdminDashboard : AppCompatActivity() {
 
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
 
-        // ✅ CLICK FILTERS
+        // FILTER BUTTONS
         totalBox.setOnClickListener { loadEvents("ALL") }
         pendingBox.setOnClickListener { loadEvents("PENDING") }
         approvedBox.setOnClickListener { loadEvents("APPROVED") }
 
-        // ✅ LOGOUT ALERT
+        // LOGOUT
         logoutBtn.setOnClickListener {
 
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Logout")
-            builder.setMessage("Are you sure you want to logout?")
+            builder.setMessage("Are you sure?")
 
             builder.setPositiveButton("Yes") { _, _ ->
-                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
 
@@ -83,10 +80,12 @@ class AdminDashboard : AppCompatActivity() {
 
         if (cursor.moveToFirst()) {
             do {
+                val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
                 val title = cursor.getString(cursor.getColumnIndexOrThrow("title"))
                 val category = cursor.getString(cursor.getColumnIndexOrThrow("category"))
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
 
+                // CARD
                 val card = LinearLayout(this)
                 card.orientation = LinearLayout.VERTICAL
                 card.setPadding(25, 25, 25, 25)
@@ -99,8 +98,44 @@ class AdminDashboard : AppCompatActivity() {
                 val tvInfo = TextView(this)
                 tvInfo.text = "$category • $date"
 
+                // BUTTONS
+                val btnApprove = Button(this)
+                btnApprove.text = "Approve"
+
+                val btnReject = Button(this)
+                btnReject.text = "Reject"
+
+                // APPROVE
+                btnApprove.setOnClickListener {
+
+                    db.updateEventStatus(id, "Approved")
+
+                    Notify.show(this, "Event Approved", "$title approved")
+
+                    Toast.makeText(this, "Approved", Toast.LENGTH_SHORT).show()
+
+                    loadEvents("PENDING")
+                    updateCounts()
+                }
+
+                // REJECT
+                btnReject.setOnClickListener {
+
+                    db.updateEventStatus(id, "Rejected")
+
+                    Notify.show(this, "Event Rejected", "$title rejected")
+
+                    Toast.makeText(this, "Rejected", Toast.LENGTH_SHORT).show()
+
+                    loadEvents("PENDING")
+                    updateCounts()
+                }
+
+                // ADD VIEWS
                 card.addView(tvTitle)
                 card.addView(tvInfo)
+                card.addView(btnApprove)
+                card.addView(btnReject)
 
                 container.addView(card)
 
@@ -111,6 +146,7 @@ class AdminDashboard : AppCompatActivity() {
     }
 
     private fun updateCounts() {
+
         val total = db.getAllEvents().count
         val pending = db.getPendingEvents().count
         val approved = db.getApprovedEvents().count

@@ -1,5 +1,7 @@
 package com.example.event_management_app
 
+import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +9,7 @@ import android.provider.MediaStore
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import java.util.Calendar
 
 class CreateEventActivity : AppCompatActivity() {
 
@@ -29,21 +32,26 @@ class CreateEventActivity : AppCompatActivity() {
 
     var imageUri: Uri? = null
 
-    // ✅ CAMERA (SAFE)
-    val cameraLauncher = registerForActivityResult(
-        ActivityResultContracts.TakePicturePreview()
-    ) { bitmap: Bitmap? ->
+    // ✅ CAMERA (STABLE)
+    private val cameraLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
 
-        if (bitmap != null) {
-            imgView.setImageBitmap(bitmap)
-            imageUri = getImageUri(bitmap)
-        } else {
-            Toast.makeText(this, "Camera failed", Toast.LENGTH_SHORT).show()
+        if (result.resultCode == RESULT_OK) {
+
+            val bitmap = result.data?.extras?.get("data") as? Bitmap
+
+            if (bitmap != null) {
+                imgView.setImageBitmap(bitmap)
+                imageUri = getImageUri(bitmap)
+            } else {
+                Toast.makeText(this, "No image captured", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     // ✅ GALLERY
-    val galleryLauncher = registerForActivityResult(
+    private val galleryLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri ->
         imageUri = uri
@@ -56,6 +64,7 @@ class CreateEventActivity : AppCompatActivity() {
 
         db = DBHelper(this)
 
+        // 🔹 Bind Views
         etTitle = findViewById(R.id.etTitle)
         spinnerCategory = findViewById(R.id.spinnerCategory)
         etDesc = findViewById(R.id.etDescription)
@@ -71,7 +80,7 @@ class CreateEventActivity : AppCompatActivity() {
         btnCamera = findViewById(R.id.btnCamera)
         btnSubmit = findViewById(R.id.btnSubmit)
 
-        // Spinner
+        // 🔹 Spinner Data
         val categories = arrayOf("Tech", "Sports", "Cultural", "Workshop")
         spinnerCategory.adapter = ArrayAdapter(
             this,
@@ -79,39 +88,62 @@ class CreateEventActivity : AppCompatActivity() {
             categories
         )
 
-        // Gallery
+        // 🔹 DATE PICKER
+        etDate.setOnClickListener {
+
+            val calendar = Calendar.getInstance()
+
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePicker = DatePickerDialog(
+                this,
+                { _, y, m, d ->
+                    val selectedDate = "$d-${m + 1}-$y"
+                    etDate.setText(selectedDate)
+                },
+                year, month, day
+            )
+
+            datePicker.show()
+        }
+
+        // 🔹 Upload Image
         btnUploadImage.setOnClickListener {
             galleryLauncher.launch("image/*")
         }
 
-        // Camera
+        // 🔹 Camera
         btnCamera.setOnClickListener {
-            cameraLauncher.launch(null)
+            try {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                cameraLauncher.launch(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Camera not supported", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        // Submit
+        // 🔹 Submit Event
         btnSubmit.setOnClickListener {
 
             val title = etTitle.text.toString()
-            val cat = spinnerCategory.selectedItem.toString()
             val desc = etDesc.text.toString()
-            val date = etDate.text.toString()
-            val time = etTime.text.toString()
-            val venue = etVenue.text.toString()
-            val max = etMax.text.toString()
-            val rules = etRules.text.toString()
-            val guidelines = etGuidelines.text.toString()
 
             if (title.isEmpty() || desc.isEmpty()) {
-                Toast.makeText(this, "Fill all required fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Fill required fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val image = imageUri?.toString() ?: ""
-            val finalDesc = "$desc\n\nRules: $rules\nGuidelines: $guidelines"
-
             val result = db.insertEvent(
-                title, cat, finalDesc, date, time, venue, max, image
+                title,
+                spinnerCategory.selectedItem.toString(),
+                desc,
+                etDate.text.toString(),
+                etTime.text.toString(),
+                etVenue.text.toString(),
+                etMax.text.toString(),
+                imageUri?.toString() ?: ""
             )
 
             if (result) {
@@ -123,15 +155,18 @@ class CreateEventActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ Convert bitmap to URI
+    // 🔹 Bitmap → URI (SAFE)
     private fun getImageUri(bitmap: Bitmap): Uri {
-        val path = MediaStore.Images.Media.insertImage(
-            contentResolver,
-            bitmap,
-            "EventImage",
-            null
-        )
-
-        return if (path != null) Uri.parse(path) else Uri.EMPTY
+        return try {
+            val path = MediaStore.Images.Media.insertImage(
+                contentResolver,
+                bitmap,
+                "EventImage",
+                null
+            )
+            if (path != null) Uri.parse(path) else Uri.EMPTY
+        } catch (e: Exception) {
+            Uri.EMPTY
+        }
     }
 }
