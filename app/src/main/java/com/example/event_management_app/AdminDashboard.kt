@@ -40,28 +40,22 @@ class AdminDashboard : AppCompatActivity() {
 
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
 
-        // FILTER BUTTONS
+        // FILTER
         totalBox.setOnClickListener { loadEvents("ALL") }
         pendingBox.setOnClickListener { loadEvents("PENDING") }
         approvedBox.setOnClickListener { loadEvents("APPROVED") }
 
         // LOGOUT
         logoutBtn.setOnClickListener {
-
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("Logout")
-            builder.setMessage("Are you sure?")
-
-            builder.setPositiveButton("Yes") { _, _ ->
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
-            }
-
-            builder.setNegativeButton("No") { dialog, _ ->
-                dialog.dismiss()
-            }
-
-            builder.show()
+            AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Yes") { _, _ ->
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
+                .setNegativeButton("No", null)
+                .show()
         }
 
         loadEvents("PENDING")
@@ -71,6 +65,12 @@ class AdminDashboard : AppCompatActivity() {
     private fun loadEvents(type: String) {
 
         container.removeAllViews()
+
+        pendingText.text = when (type) {
+            "ALL" -> "Showing all events"
+            "APPROVED" -> "Approved events"
+            else -> "Pending approvals"
+        }
 
         val cursor = when (type) {
             "ALL" -> db.getAllEvents()
@@ -84,6 +84,7 @@ class AdminDashboard : AppCompatActivity() {
                 val title = cursor.getString(cursor.getColumnIndexOrThrow("title"))
                 val category = cursor.getString(cursor.getColumnIndexOrThrow("category"))
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
+                val status = cursor.getString(cursor.getColumnIndexOrThrow("status"))
 
                 // CARD
                 val card = LinearLayout(this)
@@ -98,44 +99,39 @@ class AdminDashboard : AppCompatActivity() {
                 val tvInfo = TextView(this)
                 tvInfo.text = "$category • $date"
 
-                // BUTTONS
-                val btnApprove = Button(this)
-                btnApprove.text = "Approve"
-
-                val btnReject = Button(this)
-                btnReject.text = "Reject"
-
-                // APPROVE
-                btnApprove.setOnClickListener {
-
-                    db.updateEventStatus(id, "Approved")
-
-                    Notify.show(this, "Event Approved", "$title approved")
-
-                    Toast.makeText(this, "Approved", Toast.LENGTH_SHORT).show()
-
-                    loadEvents("PENDING")
-                    updateCounts()
-                }
-
-                // REJECT
-                btnReject.setOnClickListener {
-
-                    db.updateEventStatus(id, "Rejected")
-
-                    Notify.show(this, "Event Rejected", "$title rejected")
-
-                    Toast.makeText(this, "Rejected", Toast.LENGTH_SHORT).show()
-
-                    loadEvents("PENDING")
-                    updateCounts()
-                }
-
-                // ADD VIEWS
                 card.addView(tvTitle)
                 card.addView(tvInfo)
-                card.addView(btnApprove)
-                card.addView(btnReject)
+
+                // ONLY for pending
+                if (status.equals("Pending", true)) {
+
+                    val btnApprove = Button(this)
+                    btnApprove.text = "Approve"
+                    btnApprove.setBackgroundColor(Color.parseColor("#22C55E"))
+                    btnApprove.setTextColor(Color.WHITE)
+
+                    val btnReject = Button(this)
+                    btnReject.text = "Reject"
+                    btnReject.setBackgroundColor(Color.parseColor("#EF4444"))
+                    btnReject.setTextColor(Color.WHITE)
+
+                    btnApprove.setOnClickListener {
+                        db.updateEventStatus(id, "Approved")
+                        Toast.makeText(this, "Approved", Toast.LENGTH_SHORT).show()
+                        loadEvents("PENDING")
+                        updateCounts()
+                    }
+
+                    btnReject.setOnClickListener {
+                        db.updateEventStatus(id, "Rejected")
+                        Toast.makeText(this, "Rejected", Toast.LENGTH_SHORT).show()
+                        loadEvents("PENDING")
+                        updateCounts()
+                    }
+
+                    card.addView(btnApprove)
+                    card.addView(btnReject)
+                }
 
                 container.addView(card)
 
@@ -154,6 +150,5 @@ class AdminDashboard : AppCompatActivity() {
         totalCount.text = total.toString()
         pendingCount.text = pending.toString()
         approvedCount.text = approved.toString()
-        pendingText.text = "$pending events awaiting approval"
     }
 }
