@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEF2FF">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="#4F46E5">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/titleText"
+                    android:text="Student Dashboard"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <!-- LOGOUT BUTTON -->
+                <Button
+                    android:id="@+id/logoutBtn"
+                    android:text="Logout"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:backgroundTint="#DC2626"
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- MAIN CONTENT -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- BUTTON CARD -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="-50dp"
+                android:padding="12dp"
+                android:background="#FFFFFF"
+                android:elevation="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- ALL EVENTS BUTTON -->
+
+                <!-- MY EVENTS BUTTON -->
+                <Button
+                    android:id="@+id/eventsBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="101dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#6366F1"
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="All Events"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/myEventsBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="96dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#10B981"
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="My Events"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- SECTION TITLE -->
+            <TextView
+                android:text="Available Events"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#111827"
+                android:layout_marginTop="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <!-- SUBTEXT -->
+            <TextView
+                android:text="Browse and register for events"
+                android:textSize="13sp"
+                android:textColor="#6B7280"
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <!-- EVENT LIST -->
+            <LinearLayout
+                android:id="@+id/eventContainer"
+                android:orientation="vertical"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

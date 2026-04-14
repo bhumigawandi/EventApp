@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/card_bg"
+    android:layout_margin="4dp">
+
+    <TextView
+        android:text="9"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#4CAF50"/>
+
+    <TextView
+        android:text="Available"
+        android:textSize="12sp"/>
+</LinearLayout>

@@ -1,0 +1,186 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.event_management_app"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="34"
+9        android:targetSdkVersion="36" />
+10
+11    <uses-feature
+11-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:5:5-7:36
+12        android:name="android.hardware.camera"
+12-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:6:9-47
+13        android:required="false" />
+13-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:7:9-33
+14
+15    <uses-permission android:name="android.permission.CAMERA" />
+15-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:9:5-64
+15-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:9:22-62
+16    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+16-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:10:5-76
+16-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:10:22-74
+17
+18    <permission
+18-->[androidx.core:core:1.18.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\b3b2d738dcffd8cd83359bbd63f34941\workspace\transformed\core-1.18.0\AndroidManifest.xml:22:5-24:47
+19        android:name="com.example.event_management_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+19-->[androidx.core:core:1.18.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\b3b2d738dcffd8cd83359bbd63f34941\workspace\transformed\core-1.18.0\AndroidManifest.xml:23:9-81
+20        android:protectionLevel="signature" />
+20-->[androidx.core:core:1.18.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\b3b2d738dcffd8cd83359bbd63f34941\workspace\transformed\core-1.18.0\AndroidManifest.xml:24:9-44
+21
+22    <uses-permission android:name="com.example.event_management_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+22-->[androidx.core:core:1.18.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\b3b2d738dcffd8cd83359bbd63f34941\workspace\transformed\core-1.18.0\AndroidManifest.xml:26:5-97
+22-->[androidx.core:core:1.18.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\b3b2d738dcffd8cd83359bbd63f34941\workspace\transformed\core-1.18.0\AndroidManifest.xml:26:22-94
+23
+24    <application
+24-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:12:5-53:19
+25        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+25-->[androidx.core:core:1.18.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\b3b2d738dcffd8cd83359bbd63f34941\workspace\transformed\core-1.18.0\AndroidManifest.xml:28:18-86
+26        android:debuggable="true"
+27        android:extractNativeLibs="false"
+28        android:label="Event App"
+28-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:13:9-34
+29        android:testOnly="true"
+30        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+30-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:14:9-65
+31
+32        <!-- MAIN -->
+33        <activity
+33-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:17:9-22:20
+34            android:name="com.example.event_management_app.HomepageActivity"
+34-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:17:19-51
+35            android:exported="true" >
+35-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:17:52-75
+36            <intent-filter>
+36-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:18:13-21:29
+37                <action android:name="android.intent.action.MAIN" />
+37-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:19:17-68
+37-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:19:25-66
+38
+39                <category android:name="android.intent.category.LAUNCHER" />
+39-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:20:17-76
+39-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:20:27-74
+40            </intent-filter>
+41        </activity>
+42
+43        <!-- LOGIN -->
+44        <activity android:name="com.example.event_management_app.LoginActivity" />
+44-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:25:9-50
+44-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:25:19-48
+45        <!-- ADD THIS -->
+46        <activity android:name="com.example.event_management_app.StudentRegisterActivity" />
+46-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:27:9-60
+46-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:27:19-58
+47        <activity android:name="com.example.event_management_app.OrganizerRegisterActivity" />
+47-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:28:9-62
+47-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:28:19-60
+48        <!-- DASHBOARDS -->
+49        <activity android:name="com.example.event_management_app.AdminDashboard" />
+49-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:30:9-51
+49-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:30:19-49
+50        <activity android:name="com.example.event_management_app.OrganizerDashboard" />
+50-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:31:9-55
+50-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:31:19-53
+51        <activity android:name="com.example.event_management_app.StudentDashboard" />
+51-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:32:9-53
+51-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:32:19-51
+52
+53        <!-- EVENT -->
+54        <activity android:name="com.example.event_management_app.CreateEventActivity" />
+54-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:35:9-56
+54-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:35:19-54
+55        <activity android:name="com.example.event_management_app.StudentListActivity" />
+55-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:36:9-56
+55-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:36:19-54
+56
+57        <!-- CAMERA -->
+58        <activity android:name="com.example.event_management_app.CameraActivity" />
+58-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:39:9-51
+58-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:39:19-49
+59
+60        <!-- FILE PROVIDER -->
+61        <provider
+62            android:name="androidx.core.content.FileProvider"
+62-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:43:13-62
+63            android:authorities="com.example.event_management_app.provider"
+63-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:44:13-60
+64            android:exported="false"
+64-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:45:13-37
+65            android:grantUriPermissions="true" >
+65-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:46:13-47
+66            <meta-data
+66-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:48:13-50:53
+67                android:name="android.support.FILE_PROVIDER_PATHS"
+67-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:49:17-67
+68                android:resource="@xml/file_paths" />
+68-->C:\Users\Bhumi\AndroidStudioProjects\event_management_app\app\src\main\AndroidManifest.xml:50:17-51
+69        </provider>
+70        <provider
+70-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f1eb7b75529e6226b44ae47c11dc751\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+71            android:name="androidx.startup.InitializationProvider"
+71-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f1eb7b75529e6226b44ae47c11dc751\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+72            android:authorities="com.example.event_management_app.androidx-startup"
+72-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f1eb7b75529e6226b44ae47c11dc751\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+73            android:exported="false" >
+73-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f1eb7b75529e6226b44ae47c11dc751\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+74            <meta-data
+74-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f1eb7b75529e6226b44ae47c11dc751\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+75                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+75-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f1eb7b75529e6226b44ae47c11dc751\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+76                android:value="androidx.startup" />
+76-->[androidx.emoji2:emoji2:1.3.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f1eb7b75529e6226b44ae47c11dc751\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+77            <meta-data
+77-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f121473a0f6446934a112e96ed23570\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+78                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+78-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f121473a0f6446934a112e96ed23570\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+79                android:value="androidx.startup" />
+79-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\7f121473a0f6446934a112e96ed23570\workspace\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+80            <meta-data
+80-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+81                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+81-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+82                android:value="androidx.startup" />
+82-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+83        </provider>
+84
+85        <receiver
+85-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+86            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+86-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+87            android:directBootAware="false"
+87-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+88            android:enabled="true"
+88-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+89            android:exported="true"
+89-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+90            android:permission="android.permission.DUMP" >
+90-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+91            <intent-filter>
+91-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+92                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+92-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+92-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+93            </intent-filter>
+94            <intent-filter>
+94-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+95                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+95-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+95-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+96            </intent-filter>
+97            <intent-filter>
+97-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+98                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+98-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+98-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+99            </intent-filter>
+100            <intent-filter>
+100-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+101                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+101-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+101-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Bhumi\.gradle\caches\9.1.0\transforms\e199448d3dbe9c3e9a663d624254d34c\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+102            </intent-filter>
+103        </receiver>
+104    </application>
+105
+106</manifest>

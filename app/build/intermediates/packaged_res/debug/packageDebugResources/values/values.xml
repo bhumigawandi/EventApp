@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Event App</string>
+    <string name="arrow">></string>
+    <string name="capture_image">Capture Image</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="course">Course</string>
+    <string name="create_event">Create Event</string>
+    <string name="description">Description</string>
+    <string name="email">Email</string>
+    <string name="event_image">Event Image</string>
+    <string name="event_title">Event Title</string>
+    <string name="full_name">Full Name</string>
+    <string name="guidelines">Guidelines</string>
+    <string name="login">Login</string>
+    <string name="max_participants">Max Participants</string>
+    <string name="organizer_register">Organizer Register</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="register">Register</string>
+    <string name="rules">Rules</string>
+    <string name="select_date">Select Date</string>
+    <string name="student_register">Student Register</string>
+    <string name="student_registration">Student Registration</string>
+    <string name="submit">Submit</string>
+    <string name="tagline">Create, Manage and Join Events</string>
+    <string name="time">Time</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="venue">Venue</string>
+    <string name="year">Year</string>
+    <style name="Base.Theme.Event_management_app" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.Event_management_app" parent="Base.Theme.Event_management_app"/>
+</resources>
