@@ -17,7 +17,7 @@
             android:padding="20dp"
             android:background="#4F46E5">
 
-           
+
 
             <LinearLayout
                 android:layout_width="match_parent"
