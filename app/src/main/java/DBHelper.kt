@@ -271,4 +271,17 @@ class DBHelper(context: Context) :
             arrayOf(eventId.toString())
         )
     }
+
+    fun isEventConflict(date: String, time: String): Boolean {
+
+        val db = this.readableDatabase
+
+        val query = "SELECT * FROM events WHERE date = ? AND time = ?"
+        val cursor = db.rawQuery(query, arrayOf(date, time))
+
+        val exists = cursor.count > 0
+
+        cursor.close()
+        return exists
+    }
 }

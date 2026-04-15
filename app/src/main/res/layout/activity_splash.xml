@@ -1,32 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:background="@drawable/card_blue">
+    android:background="@drawable/bg_splash_navy">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/card_bg" />
+    <!-- Top accent line -->
+    <View
+        android:id="@+id/topAccent"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#FFFFFF"
+        android:alpha="0.15"
+        android:layout_alignParentTop="true" />
 
-    <TextView
+    <!-- Center content block -->
+    <LinearLayout
+        android:id="@+id/centerBlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hotel Finder"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"/>
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="250dp"
-        android:layout_height="8dp"
-        android:max="100"
-        android:progress="0"
-        android:progressTint="@android:color/white"/>
+        <!-- Logo container with circular background -->
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/circle_white_alpha"
+            android:layout_gravity="center">
 
-</LinearLayout>
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo_1"
+                android:scaleType="fitCenter" />
+        </FrameLayout>
+
+        <!-- Short divider -->
+        <View
+            android:layout_width="40dp"
+            android:layout_height="2dp"
+            android:background="#FFFFFF"
+            android:alpha="0.4"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- App Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="College Event App"
+            android:textColor="#FFFFFF"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.04"
+            android:gravity="center" />
+
+        <!-- University name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SNDT Women's University"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:alpha="0.65"
+            android:letterSpacing="0.08"
+            android:layout_marginTop="6dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Bottom section: progress + loading label -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="52dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="3dp"
+            android:max="100"
+            android:progress="0"
+            android:progressTint="#FFFFFF"
+            android:progressBackgroundTint="#FFFFFF"
+            android:progressBackgroundTintMode="src_in"
+            android:alpha="0.45" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:alpha="0.4"
+            android:letterSpacing="0.12"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
