@@ -14,14 +14,16 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!-- MAIN -->
-        <activity android:name=".HomepageActivity" android:exported="true">
+        <activity android:name=".com.example.event_management_app.SplashActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
+
         <!-- LOGIN -->
+        <activity android:name=".HomepageActivity"/>
         <activity android:name=".LoginActivity"/>
         <!-- ADD THIS -->
         <activity android:name=".StudentRegisterActivity"/>
