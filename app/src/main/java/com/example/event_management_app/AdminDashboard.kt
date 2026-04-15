@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-
+//sidjmioa
 class AdminDashboard : AppCompatActivity() {
 
     private lateinit var db: DBHelper
     private lateinit var container: LinearLayout
-
+///SDSADSDAS
     private lateinit var totalBox: LinearLayout
     private lateinit var pendingBox: LinearLayout
     private lateinit var approvedBox: LinearLayout
