@@ -2,6 +2,7 @@ package com.example.event_management_app
 
 import android.content.Intent
 import android.database.Cursor
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.*
@@ -15,11 +16,16 @@ class StudentDashboard : AppCompatActivity() {
     lateinit var email: String
     lateinit var name: String
 
+    private var mediaPlayer: MediaPlayer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_student_dashboard)
 
         db = DBHelper(this)
+
+        // 🔔 Required for notifications
+        NotificationHelper.createChannel(this)
 
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
         val eventsBtn = findViewById<Button>(R.id.eventsBtn)
@@ -32,30 +38,50 @@ class StudentDashboard : AppCompatActivity() {
         email = intent.getStringExtra("email") ?: ""
         name = intent.getStringExtra("name") ?: "Student"
 
-        // ✅ Show student name
         titleText.text = "Welcome, $name 👋"
 
-        // Default load
         loadEvents()
 
-        // LOGOUT
+        // ✅ LOGOUT (alert + notification + audio)
         logoutBtn.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+
+            AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout?")
+                .setPositiveButton("Yes") { _, _ ->
+
+                    // 🔔 Notification
+                    NotificationHelper.showNotification(
+                        this,
+                        "Logout Successful",
+                        "You have been logged out"
+                    )
+
+                    // 🔊 Audio
+                    mediaPlayer = MediaPlayer.create(this, R.raw.logout_success)
+                    mediaPlayer?.start()
+
+                    mediaPlayer?.setOnCompletionListener {
+                        it.release()
+                        mediaPlayer = null
+
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
         }
 
-        // ALL EVENTS
         eventsBtn.setOnClickListener {
             loadEvents()
         }
 
-        // MY EVENTS
         myEventsBtn.setOnClickListener {
             loadMyEvents()
         }
     }
 
-    // 🔹 ALL EVENTS
     private fun loadEvents() {
 
         container.removeAllViews()
@@ -90,7 +116,6 @@ class StudentDashboard : AppCompatActivity() {
                     btnRegister.setTextColor(0xFFFFFFFF.toInt())
                 }
 
-                // ✅ POPUP CONFIRMATION
                 btnRegister.setOnClickListener {
 
                     AlertDialog.Builder(this)
@@ -130,7 +155,6 @@ class StudentDashboard : AppCompatActivity() {
         cursor.close()
     }
 
-    // 🔹 MY EVENTS (REGISTERED ONLY)
     private fun loadMyEvents() {
 
         container.removeAllViews()
@@ -172,7 +196,6 @@ class StudentDashboard : AppCompatActivity() {
         cursor.close()
     }
 
-    // 🔹 CARD DESIGN (Reusable)
     private fun createCard(): LinearLayout {
 
         val card = LinearLayout(this)
@@ -188,5 +211,11 @@ class StudentDashboard : AppCompatActivity() {
         card.layoutParams = params
 
         return card
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 }

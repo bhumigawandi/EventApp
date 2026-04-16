@@ -2,6 +2,7 @@ package com.example.event_management_app
 
 import android.content.Intent
 import android.database.Cursor
+import android.media.MediaPlayer   // ✅ added
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.*
@@ -12,6 +13,8 @@ class OrganizerDashboard : AppCompatActivity() {
 
     lateinit var container: LinearLayout
     lateinit var db: DBHelper
+
+    private var mediaPlayer: MediaPlayer? = null   // ✅ added
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,20 +37,37 @@ class OrganizerDashboard : AppCompatActivity() {
 
         db = DBHelper(this)
 
-        // 🔴 LOGOUT
+        // 🔴 LOGOUT (only additions done)
         logoutBtn.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Logout")
                 .setMessage("Are you sure you want to logout?")
                 .setPositiveButton("Yes") { _, _ ->
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
+
+                    // 🔔 Notification added
+                    NotificationHelper.showNotification(
+                        this,
+                        "Logout Successful",
+                        "You have been logged out"
+                    )
+
+                    // 🔊 Audio added
+                    mediaPlayer = MediaPlayer.create(this, R.raw.logout_success)
+                    mediaPlayer?.start()
+
+                    mediaPlayer?.setOnCompletionListener {
+                        it.release()
+                        mediaPlayer = null
+
+                        // original logic (unchanged)
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    }
                 }
                 .setNegativeButton("Cancel", null)
                 .show()
         }
 
-        // CREATE EVENT
         createEventBtn.setOnClickListener {
             startActivity(Intent(this, CreateEventActivity::class.java))
 
@@ -58,26 +78,21 @@ class OrganizerDashboard : AppCompatActivity() {
             )
         }
 
-        // CAMERA
         cameraBtn.setOnClickListener {
             startActivity(Intent(this, CameraActivity::class.java))
         }
 
-        // MY EVENTS
         myEventsBtn.setOnClickListener {
             loadMyEvents()
         }
 
-        // ALL STUDENTS
         allStudentsBtn.setOnClickListener {
             loadAllStudents()
         }
 
-        // Default load
         loadEvents()
     }
 
-    // 🔹 SHOW EVENTS + STUDENTS
     private fun loadEvents() {
 
         container.removeAllViews()
@@ -152,7 +167,6 @@ class OrganizerDashboard : AppCompatActivity() {
         cursor.close()
     }
 
-    // 🔹 MY EVENTS
     private fun loadMyEvents() {
 
         container.removeAllViews()
@@ -215,7 +229,6 @@ class OrganizerDashboard : AppCompatActivity() {
         cursor.close()
     }
 
-    // 🔹 ALL STUDENTS LIST
     private fun loadAllStudents() {
 
         container.removeAllViews()
@@ -243,5 +256,11 @@ class OrganizerDashboard : AppCompatActivity() {
         }
 
         cursor.close()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 }

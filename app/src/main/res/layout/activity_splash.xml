@@ -23,19 +23,15 @@
         android:gravity="center">
 
         <!-- Logo container with circular background -->
-        <FrameLayout
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/circle_white_alpha"
-            android:layout_gravity="center">
+
 
             <ImageView
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_gravity="center"
-                android:src="@drawable/logo_1"
+                android:src="@drawable/logo_new"
                 android:scaleType="fitCenter" />
-        </FrameLayout>
+
 
         <!-- Short divider -->
         <View

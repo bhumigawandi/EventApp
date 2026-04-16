@@ -2,16 +2,17 @@ package com.example.event_management_app
 
 import android.content.Intent
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-//sidjmioa
+
 class AdminDashboard : AppCompatActivity() {
 
     private lateinit var db: DBHelper
     private lateinit var container: LinearLayout
-///SDSADSDAS
+
     private lateinit var totalBox: LinearLayout
     private lateinit var pendingBox: LinearLayout
     private lateinit var approvedBox: LinearLayout
@@ -21,9 +22,14 @@ class AdminDashboard : AppCompatActivity() {
     private lateinit var approvedCount: TextView
     private lateinit var pendingText: TextView
 
+    private var mediaPlayer: MediaPlayer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_dashboard)
+
+        // 🔔 Notification channel (added)
+        NotificationHelper.createChannel(this)
 
         db = DBHelper(this)
 
@@ -40,19 +46,36 @@ class AdminDashboard : AppCompatActivity() {
 
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
 
-        // FILTER
         totalBox.setOnClickListener { loadEvents("ALL") }
         pendingBox.setOnClickListener { loadEvents("PENDING") }
         approvedBox.setOnClickListener { loadEvents("APPROVED") }
 
-        // LOGOUT
+        // 🔴 LOGOUT (alert + notification + audio)
         logoutBtn.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Logout")
                 .setMessage("Are you sure?")
                 .setPositiveButton("Yes") { _, _ ->
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
+
+                    // 🔔 Notification added
+                    NotificationHelper.showNotification(
+                        this,
+                        "Logout Successful",
+                        "Admin logged out successfully"
+                    )
+
+                    // 🔊 Audio
+                    mediaPlayer = MediaPlayer.create(this, R.raw.logout_success)
+                    mediaPlayer?.start()
+
+                    mediaPlayer?.setOnCompletionListener {
+                        it.release()
+                        mediaPlayer = null
+
+                        // original logic
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    }
                 }
                 .setNegativeButton("No", null)
                 .show()
@@ -63,7 +86,6 @@ class AdminDashboard : AppCompatActivity() {
     }
 
     private fun loadEvents(type: String) {
-
         container.removeAllViews()
 
         pendingText.text = when (type) {
@@ -86,7 +108,6 @@ class AdminDashboard : AppCompatActivity() {
                 val date = cursor.getString(cursor.getColumnIndexOrThrow("date"))
                 val status = cursor.getString(cursor.getColumnIndexOrThrow("status"))
 
-                // CARD
                 val card = LinearLayout(this)
                 card.orientation = LinearLayout.VERTICAL
                 card.setPadding(25, 25, 25, 25)
@@ -102,29 +123,22 @@ class AdminDashboard : AppCompatActivity() {
                 card.addView(tvTitle)
                 card.addView(tvInfo)
 
-                // ONLY for pending
                 if (status.equals("Pending", true)) {
 
                     val btnApprove = Button(this)
                     btnApprove.text = "Approve"
-                    btnApprove.setBackgroundColor(Color.parseColor("#22C55E"))
-                    btnApprove.setTextColor(Color.WHITE)
 
                     val btnReject = Button(this)
                     btnReject.text = "Reject"
-                    btnReject.setBackgroundColor(Color.parseColor("#EF4444"))
-                    btnReject.setTextColor(Color.WHITE)
 
                     btnApprove.setOnClickListener {
                         db.updateEventStatus(id, "Approved")
-                        Toast.makeText(this, "Approved", Toast.LENGTH_SHORT).show()
                         loadEvents("PENDING")
                         updateCounts()
                     }
 
                     btnReject.setOnClickListener {
                         db.updateEventStatus(id, "Rejected")
-                        Toast.makeText(this, "Rejected", Toast.LENGTH_SHORT).show()
                         loadEvents("PENDING")
                         updateCounts()
                     }
@@ -142,13 +156,13 @@ class AdminDashboard : AppCompatActivity() {
     }
 
     private fun updateCounts() {
+        totalCount.text = db.getAllEvents().count.toString()
+        pendingCount.text = db.getPendingEvents().count.toString()
+        approvedCount.text = db.getApprovedEvents().count.toString()
+    }
 
-        val total = db.getAllEvents().count
-        val pending = db.getPendingEvents().count
-        val approved = db.getApprovedEvents().count
-
-        totalCount.text = total.toString()
-        pendingCount.text = pending.toString()
-        approvedCount.text = approved.toString()
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
     }
 }

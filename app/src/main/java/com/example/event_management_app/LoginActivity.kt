@@ -3,6 +3,7 @@ package com.example.event_management_app
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,15 +15,16 @@ import androidx.core.content.ContextCompat
 class LoginActivity : AppCompatActivity() {
 
     lateinit var db: DBHelper
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // ✅ STEP 4: Notification setup
+        // Notification setup
         NotificationHelper.createChannel(this)
 
-        // ✅ Ask notification permission (Android 13+)
+        // Notification permission (Android 13+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -73,9 +75,14 @@ class LoginActivity : AppCompatActivity() {
             if (role.equals("Admin", ignoreCase = true)) {
 
                 if (db.checkAdmin(userEmail, userPassword)) {
+
                     Toast.makeText(this, "Admin Login Successful ✅", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, AdminDashboard::class.java))
-                    finish()
+
+                    playLoginSound {
+                        startActivity(Intent(this, AdminDashboard::class.java))
+                        finish()
+                    }
+
                 } else {
                     Toast.makeText(this, "Invalid Admin credentials", Toast.LENGTH_SHORT).show()
                 }
@@ -83,31 +90,54 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // USER LOGIN
+            // USER LOGIN (Organizer / Student)
             val valid = db.checkUser(userEmail, userPassword, role)
 
             if (valid) {
 
                 Toast.makeText(this, "$role Login Successful ✅", Toast.LENGTH_SHORT).show()
 
-                if (role.equals("Organizer", ignoreCase = true)) {
+                playLoginSound {
 
-                    val intent = Intent(this, OrganizerDashboard::class.java)
-                    intent.putExtra("organizer_name", userEmail)
-                    startActivity(intent)
+                    if (role.equals("Organizer", ignoreCase = true)) {
 
-                } else {
+                        val intent = Intent(this, OrganizerDashboard::class.java)
+                        intent.putExtra("organizer_name", userEmail)
+                        startActivity(intent)
 
-                    val intent = Intent(this, StudentDashboard::class.java)
-                    intent.putExtra("email", userEmail)
-                    startActivity(intent)
+                    } else {
+
+                        val intent = Intent(this, StudentDashboard::class.java)
+                        intent.putExtra("email", userEmail)
+                        startActivity(intent)
+                    }
+
+                    finish()
                 }
-
-                finish()
 
             } else {
                 Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    // 🔊 Play full audio then navigate
+    private fun playLoginSound(onComplete: () -> Unit) {
+        mediaPlayer?.release()
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.login_success_voice)
+        mediaPlayer?.start()
+
+        mediaPlayer?.setOnCompletionListener {
+            it.release()
+            mediaPlayer = null
+            onComplete()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 }
