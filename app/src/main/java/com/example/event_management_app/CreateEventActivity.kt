@@ -1,6 +1,7 @@
 package com.example.event_management_app
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -94,7 +95,29 @@ class CreateEventActivity : AppCompatActivity() {
                 cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+        // ================= TIME PICKER =================
+        etTime.setOnClickListener {
 
+            val calendar = Calendar.getInstance()
+
+            val timePicker = TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+
+                    val ampm = if (hourOfDay < 12) "AM" else "PM"
+                    val hour = if (hourOfDay % 12 == 0) 12 else hourOfDay % 12
+
+                    val formattedMinute = if (minute < 10) "0$minute" else "$minute"
+
+                    etTime.setText("$hour:$formattedMinute $ampm")
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                false
+            )
+
+            timePicker.show()
+        }
         // 🖼 GALLERY
         btnUploadImage.setOnClickListener {
             galleryLauncher.launch("image/*")

@@ -284,4 +284,31 @@ class DBHelper(context: Context) :
         cursor.close()
         return exists
     }
+    // ================= DELETE EVENT =================
+    fun deleteEvent(id: Int) {
+        writableDatabase.delete("events", "id=?", arrayOf(id.toString()))
+    }
+
+    // ================= UPDATE EVENT =================
+    fun updateEvent(
+        id: Int,
+        title: String,
+        category: String,
+        description: String,
+        date: String,
+        time: String,
+        venue: String,
+        max: String
+    ) {
+        val cv = ContentValues()
+        cv.put("title", title)
+        cv.put("category", category)
+        cv.put("description", description)
+        cv.put("date", date)
+        cv.put("time", time)
+        cv.put("venue", venue)
+        cv.put("maxParticipants", max)
+
+        writableDatabase.update("events", cv, "id=?", arrayOf(id.toString()))
+    }
 }

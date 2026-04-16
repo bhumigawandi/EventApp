@@ -2,8 +2,10 @@ package com.example.event_management_app
 
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -24,13 +26,11 @@ class StudentDashboard : AppCompatActivity() {
 
         db = DBHelper(this)
 
-        // 🔔 Required for notifications
         NotificationHelper.createChannel(this)
 
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
         val eventsBtn = findViewById<Button>(R.id.eventsBtn)
         val myEventsBtn = findViewById<Button>(R.id.myEventsBtn)
-
         val titleText = findViewById<TextView>(R.id.titleText)
 
         container = findViewById(R.id.eventContainer)
@@ -42,7 +42,7 @@ class StudentDashboard : AppCompatActivity() {
 
         loadEvents()
 
-        // ✅ LOGOUT (alert + notification + audio)
+        // ================= LOGOUT =================
         logoutBtn.setOnClickListener {
 
             AlertDialog.Builder(this)
@@ -50,14 +50,12 @@ class StudentDashboard : AppCompatActivity() {
                 .setMessage("Are you sure you want to logout?")
                 .setPositiveButton("Yes") { _, _ ->
 
-                    // 🔔 Notification
                     NotificationHelper.showNotification(
                         this,
                         "Logout Successful",
                         "You have been logged out"
                     )
 
-                    // 🔊 Audio
                     mediaPlayer = MediaPlayer.create(this, R.raw.logout_success)
                     mediaPlayer?.start()
 
@@ -82,6 +80,7 @@ class StudentDashboard : AppCompatActivity() {
         }
     }
 
+    // ================= ALL EVENTS =================
     private fun loadEvents() {
 
         container.removeAllViews()
@@ -100,20 +99,24 @@ class StudentDashboard : AppCompatActivity() {
                 val tvTitle = TextView(this)
                 tvTitle.text = title
                 tvTitle.textSize = 18f
+                tvTitle.setTextColor(Color.parseColor("#111827"))
+                tvTitle.setTypeface(null, android.graphics.Typeface.BOLD)
 
                 val tvInfo = TextView(this)
                 tvInfo.text = "$date • $venue"
+                tvInfo.setTextColor(Color.parseColor("#6B7280"))
+                tvInfo.setPadding(0, 6, 0, 12)
 
                 val btnRegister = Button(this)
 
                 if (db.isAlreadyRegistered(eventId, email)) {
                     btnRegister.text = "Registered"
                     btnRegister.isEnabled = false
-                    btnRegister.setBackgroundColor(0xFF9CA3AF.toInt())
+                    btnRegister.setBackgroundColor(Color.parseColor("#9CA3AF"))
                 } else {
                     btnRegister.text = "Register"
-                    btnRegister.setBackgroundColor(0xFF6366F1.toInt())
-                    btnRegister.setTextColor(0xFFFFFFFF.toInt())
+                    btnRegister.setBackgroundColor(Color.parseColor("#6366F1"))
+                    btnRegister.setTextColor(Color.WHITE)
                 }
 
                 btnRegister.setOnClickListener {
@@ -128,7 +131,7 @@ class StudentDashboard : AppCompatActivity() {
                             if (result) {
                                 btnRegister.text = "Registered"
                                 btnRegister.isEnabled = false
-                                btnRegister.setBackgroundColor(0xFF9CA3AF.toInt())
+                                btnRegister.setBackgroundColor(Color.parseColor("#9CA3AF"))
 
                                 Toast.makeText(this, "Registered Successfully", Toast.LENGTH_SHORT).show()
                             } else {
@@ -149,12 +152,16 @@ class StudentDashboard : AppCompatActivity() {
         } else {
             val empty = TextView(this)
             empty.text = "No Events Available"
+            empty.setTextColor(Color.GRAY)
+            empty.gravity = Gravity.CENTER
+            empty.textSize = 16f
             container.addView(empty)
         }
 
         cursor.close()
     }
 
+    // ================= MY EVENTS =================
     private fun loadMyEvents() {
 
         container.removeAllViews()
@@ -172,13 +179,16 @@ class StudentDashboard : AppCompatActivity() {
                 val tvTitle = TextView(this)
                 tvTitle.text = title
                 tvTitle.textSize = 18f
+                tvTitle.setTypeface(null, android.graphics.Typeface.BOLD)
 
                 val tvInfo = TextView(this)
                 tvInfo.text = "$date • $venue"
+                tvInfo.setPadding(0, 6, 0, 10)
 
                 val status = TextView(this)
                 status.text = "Registered ✅"
-                status.setTextColor(0xFF10B981.toInt())
+                status.setTextColor(Color.parseColor("#10B981"))
+                status.textSize = 14f
 
                 card.addView(tvTitle)
                 card.addView(tvInfo)
@@ -190,24 +200,27 @@ class StudentDashboard : AppCompatActivity() {
         } else {
             val empty = TextView(this)
             empty.text = "No Registered Events"
+            empty.setTextColor(Color.GRAY)
+            empty.gravity = Gravity.CENTER
             container.addView(empty)
         }
 
         cursor.close()
     }
 
+    // ================= CARD UI =================
     private fun createCard(): LinearLayout {
 
         val card = LinearLayout(this)
         card.orientation = LinearLayout.VERTICAL
-        card.setPadding(20, 20, 20, 20)
-        card.setBackgroundColor(0xFFFFFFFF.toInt())
+        card.setPadding(24, 24, 24, 24)
+        card.setBackgroundColor(Color.WHITE)
 
         val params = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        params.setMargins(0, 0, 0, 20)
+        params.setMargins(0, 0, 0, 24)
         card.layoutParams = params
 
         return card

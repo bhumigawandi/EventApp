@@ -12,17 +12,14 @@
         <!-- HEADER -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="180dp"
             android:orientation="vertical"
             android:padding="20dp"
             android:background="#4F46E5">
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -35,18 +32,33 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
 
-                <!-- LOGOUT BUTTON -->
                 <Button
                     android:id="@+id/logoutBtn"
                     android:text="Logout"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:backgroundTint="#DC2626"
-                    android:elevation="0dp"
-                    android:stateListAnimator="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"/>
             </LinearLayout>
+
+            <!-- ✅ NEW: WELCOME TEXT -->
+            <TextView
+                android:id="@+id/welcomeText"
+              
+                android:textColor="#E0E7FF"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="Explore &amp; manage your events"
+                android:textColor="#C7D2FE"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <!-- MAIN CONTENT -->
@@ -60,40 +72,35 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_marginTop="-50dp"
-                android:padding="12dp"
+                android:padding="14dp"
                 android:background="#FFFFFF"
-                android:elevation="6dp"
+                android:elevation="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- ALL EVENTS BUTTON -->
-
-                <!-- MY EVENTS BUTTON -->
                 <Button
                     android:id="@+id/eventsBtn"
                     android:layout_width="0dp"
-                    android:layout_height="101dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#6366F1"
-                    android:elevation="0dp"
-                    android:stateListAnimator="@null"
                     android:text="All Events"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:backgroundTint="#6366F1"/>
 
                 <Button
                     android:id="@+id/myEventsBtn"
                     android:layout_width="0dp"
-                    android:layout_height="96dp"
+                    android:layout_height="100dp"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#10B981"
-                    android:elevation="0dp"
-                    android:stateListAnimator="@null"
                     android:text="My Events"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:backgroundTint="#10B981"/>
             </LinearLayout>
 
-            <!-- SECTION TITLE -->
+            <!-- SECTION -->
             <TextView
                 android:text="Available Events"
                 android:textSize="18sp"
@@ -103,7 +110,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <!-- SUBTEXT -->
             <TextView
                 android:text="Browse and register for events"
                 android:textSize="13sp"

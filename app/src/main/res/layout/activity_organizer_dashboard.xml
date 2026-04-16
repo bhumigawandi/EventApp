@@ -4,50 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F7FB">
+    android:background="#0F3D3E">
 
-    <!-- 🔵 HEADER -->
+    <!-- HEADER -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#3F7AE0"
-        android:padding="10dp">
+        android:layout_height="70dp"
+        android:background="#134E4A"
+        android:padding="12dp">
 
         <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Organizer Dashboard"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_centerVertical="true"/>
 
         <Button
             android:id="@+id/logoutBtn"
-            android:text="Logout"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:backgroundTint="#EF4444"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:elevation="0dp"
-            android:stateListAnimator="@null"/>
+            android:text="Logout"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#DC2626"
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
-    <!-- Welcome -->
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Organizer 👋"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="16dp"
-        android:textColor="#333"/>
+        android:text="Welcome"
+        android:textColor="#A7F3D0"
+        android:textSize="16sp"
+        android:padding="16dp"/>
 
-    <!-- Buttons Row -->
+    <!-- BUTTONS -->
     <LinearLayout
         android:orientation="horizontal"
         android:padding="10dp"
@@ -60,8 +55,7 @@
             android:layout_weight="1"
             android:layout_height="50dp"
             android:text="Create"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#3F7AE0"/>
+            android:backgroundTint="#F59E0B"/>
 
         <Button
             android:id="@+id/myEventsBtn"
@@ -69,44 +63,29 @@
             android:layout_weight="1"
             android:layout_height="50dp"
             android:text="My Events"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#5C6BC0"
+            android:backgroundTint="#0D9488"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 
-    <!-- NEW: ALL STUDENTS BUTTON -->
     <Button
         android:id="@+id/allStudentsBtn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="All Students"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#8B5CF6"
+        android:backgroundTint="#14B8A6"
         android:layout_margin="10dp"/>
 
-    <!-- Camera -->
-    <Button
-        android:id="@+id/btnCamera"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Capture Image"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#26A69A"
-        android:layout_margin="10dp"/>
-
-    <!-- Content -->
+    <!-- LIST -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/mainContainer"
-            android:orientation="vertical"
-            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"/>
     </ScrollView>
 
 </LinearLayout>
