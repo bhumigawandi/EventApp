@@ -15,7 +15,7 @@ class OrganizerDashboard : AppCompatActivity() {
 
     lateinit var container: LinearLayout
     lateinit var db: DBHelper
-    private var mediaPlayer: MediaPlayer? = null   // ✅ ADDED
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class OrganizerDashboard : AppCompatActivity() {
 
         tv.text = "Hello Organizer 👋"
 
-        // ================= LOGOUT WITH AUDIO =================
+        // LOGOUT
         logoutBtn.setOnClickListener {
 
             AlertDialog.Builder(this)
@@ -40,11 +40,9 @@ class OrganizerDashboard : AppCompatActivity() {
                 .setMessage("Are you sure you want to logout?")
                 .setPositiveButton("Yes") { _, _ ->
 
-                    // 🔊 PLAY AUDIO
                     mediaPlayer = MediaPlayer.create(this, R.raw.logout_success)
                     mediaPlayer?.start()
 
-                    // AFTER AUDIO FINISH → LOGOUT
                     mediaPlayer?.setOnCompletionListener {
                         it.release()
                         mediaPlayer = null
@@ -70,7 +68,7 @@ class OrganizerDashboard : AppCompatActivity() {
         }
     }
 
-    // ================= MY EVENTS =================
+    // ================= EVENTS =================
     private fun loadMyEvents() {
 
         container.removeAllViews()
@@ -91,7 +89,7 @@ class OrganizerDashboard : AppCompatActivity() {
 
                 val card = LinearLayout(this)
                 card.orientation = LinearLayout.VERTICAL
-                card.setPadding(20, 20, 20, 20)
+                card.setPadding(25, 25, 25, 25)
                 card.setBackgroundColor(Color.WHITE)
 
                 val params = LinearLayout.LayoutParams(
@@ -212,8 +210,62 @@ class OrganizerDashboard : AppCompatActivity() {
         cursor.close()
     }
 
+    // ================= ALL STUDENTS (FIXED) =================
     private fun loadAllStudents() {
+
         container.removeAllViews()
+
+        val cursor = db.getRegisteredEventsForOrganizer()
+
+        if (cursor.moveToFirst()) {
+            do {
+                val title = cursor.getString(0)
+                val date = cursor.getString(1)
+                val venue = cursor.getString(2)
+                val email = cursor.getString(3)
+
+                val card = LinearLayout(this)
+                card.orientation = LinearLayout.VERTICAL
+                card.setPadding(25, 25, 25, 25)
+                card.setBackgroundColor(Color.WHITE)
+
+                val params = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                params.setMargins(0, 0, 0, 20)
+                card.layoutParams = params
+
+                val tvTitle = TextView(this)
+                tvTitle.text = "Event: $title"
+                tvTitle.setTextColor(Color.BLACK)
+
+                val tvDate = TextView(this)
+                tvDate.text = "Date: $date"
+
+                val tvVenue = TextView(this)
+                tvVenue.text = "Venue: $venue"
+
+                val tvEmail = TextView(this)
+                tvEmail.text = "Student: $email"
+                tvEmail.setTextColor(Color.parseColor("#0F3D3E"))
+
+                card.addView(tvTitle)
+                card.addView(tvDate)
+                card.addView(tvVenue)
+                card.addView(tvEmail)
+
+                container.addView(card)
+
+            } while (cursor.moveToNext())
+        } else {
+            val empty = TextView(this)
+            empty.text = "No students registered"
+            empty.setTextColor(Color.WHITE)
+            container.addView(empty)
+        }
+
+        cursor.close()
     }
 
     override fun onDestroy() {

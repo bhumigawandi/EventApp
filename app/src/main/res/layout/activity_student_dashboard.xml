@@ -45,7 +45,7 @@
             <!-- ✅ NEW: WELCOME TEXT -->
             <TextView
                 android:id="@+id/welcomeText"
-              
+
                 android:textColor="#E0E7FF"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
