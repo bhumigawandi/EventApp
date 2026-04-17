@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@drawable/bg_gradient">
+    android:background="@drawable/bg_gradient"
+    android:fillViewport="true">
 
     <LinearLayout
         android:orientation="vertical"
@@ -11,16 +12,6 @@
         android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-      <!--  <TextView
-            android:text="Event Management System"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:alpha="0.9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>-->
 
         <Space android:layout_width="match_parent" android:layout_height="60dp"/>
 
@@ -38,57 +29,101 @@
             android:orientation="vertical"
             android:padding="22dp"
             android:background="@drawable/bg_card"
-            android:elevation="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText android:id="@+id/name" android:hint="Organizer Name"
-                android:padding="12dp" android:background="@drawable/bg_input"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <!-- NAME -->
+            <EditText
+                android:id="@+id/name"
+                android:hint="Organizer Name"
+                android:padding="12dp"
+                android:background="@drawable/bg_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <EditText android:id="@+id/email" android:hint="Email"
+            <!-- EMAIL -->
+            <EditText
+                android:id="@+id/email"
+                android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:layout_marginTop="14dp"
-                android:padding="12dp" android:background="@drawable/bg_input"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                android:padding="12dp"
+                android:background="@drawable/bg_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <EditText android:id="@+id/phone" android:hint="Phone"
+            <!-- PHONE -->
+            <EditText
+                android:id="@+id/phone"
+                android:hint="Phone"
                 android:inputType="phone"
                 android:layout_marginTop="14dp"
-                android:padding="12dp" android:background="@drawable/bg_input"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                android:padding="12dp"
+                android:background="@drawable/bg_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <EditText android:id="@+id/event" android:hint="Event Name"
+            <!-- EVENT -->
+            <EditText
+                android:id="@+id/event"
+                android:hint="Event Name"
                 android:layout_marginTop="14dp"
-                android:padding="12dp" android:background="@drawable/bg_input"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                android:padding="12dp"
+                android:background="@drawable/bg_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <TextView android:text="Event Category"
+            <TextView
+                android:text="Event Category"
                 android:textSize="12sp"
                 android:textColor="#666"
                 android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <Spinner android:id="@+id/spinnerCategory"
+            <Spinner
+                android:id="@+id/spinnerCategory"
                 android:background="@drawable/bg_input"
                 android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <EditText android:id="@+id/password" android:hint="Password"
-                android:inputType="textPassword"
+            <!-- PASSWORD WITH TOGGLE -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="14dp"
-                android:padding="12dp" android:background="@drawable/bg_input"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconMode="password_toggle">
 
-            <EditText android:id="@+id/confirmPassword" android:hint="Confirm Password"
-                android:inputType="textPassword"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:background="@drawable/bg_input"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- CONFIRM PASSWORD WITH TOGGLE -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="14dp"
-                android:padding="12dp" android:background="@drawable/bg_input"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconMode="password_toggle">
 
-            <Button android:id="@+id/btnRegister"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/confirmPassword"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:background="@drawable/bg_input"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnRegister"
                 android:text="Register"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"

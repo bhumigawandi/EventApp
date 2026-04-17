@@ -1,6 +1,7 @@
 package com.example.event_management_app
 
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
@@ -21,9 +22,6 @@ class OrganizerRegisterActivity : AppCompatActivity() {
 
         val db = DBHelper(this)
 
-        // =========================
-        // ✅ SPINNER DATA
-        // =========================
         val categories = arrayOf(
             "Select Category",
             "Technical",
@@ -41,9 +39,6 @@ class OrganizerRegisterActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
-        // =========================
-        // ✅ REGISTER BUTTON
-        // =========================
         btn.setOnClickListener {
 
             val nameText = name.text.toString().trim()
@@ -54,25 +49,79 @@ class OrganizerRegisterActivity : AppCompatActivity() {
             val passwordText = password.text.toString().trim()
             val confirmText = confirm.text.toString().trim()
 
-            // 🔴 Validation
-            if (nameText.isEmpty() || emailText.isEmpty() || phoneText.isEmpty()
-                || eventText.isEmpty() || passwordText.isEmpty() || confirmText.isEmpty()
-            ) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            // ✅ NAME
+            if (nameText.isEmpty()) {
+                name.error = "Enter name"
+                name.requestFocus()
                 return@setOnClickListener
             }
 
+            // ✅ EMAIL
+            if (emailText.isEmpty()) {
+                email.error = "Enter email"
+                email.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
+                email.error = "Invalid email"
+                email.requestFocus()
+                return@setOnClickListener
+            }
+
+            // ✅ PHONE
+            if (phoneText.isEmpty()) {
+                phone.error = "Enter phone"
+                phone.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (phoneText.length != 10) {
+                phone.error = "Enter valid 10-digit phone"
+                phone.requestFocus()
+                return@setOnClickListener
+            }
+
+            // ✅ EVENT
+            if (eventText.isEmpty()) {
+                event.error = "Enter event name"
+                event.requestFocus()
+                return@setOnClickListener
+            }
+
+            // ✅ CATEGORY
             if (category == "Select Category") {
                 Toast.makeText(this, "Please select category", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if (passwordText != confirmText) {
-                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            // ✅ PASSWORD
+            if (passwordText.isEmpty()) {
+                password.error = "Enter password"
+                password.requestFocus()
                 return@setOnClickListener
             }
 
-            // 🔥 SAVE TO DATABASE (IMPORTANT)
+            if (passwordText.length < 6) {
+                password.error = "Minimum 6 characters"
+                password.requestFocus()
+                return@setOnClickListener
+            }
+
+            // ✅ CONFIRM PASSWORD
+            if (confirmText.isEmpty()) {
+                confirm.error = "Confirm password"
+                confirm.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (passwordText != confirmText) {
+                confirm.error = "Passwords do not match"
+                confirm.requestFocus()
+                return@setOnClickListener
+            }
+
+            // 🔥 SAVE
             val result = db.insertOrganizer(nameText, emailText, passwordText)
 
             if (result) {

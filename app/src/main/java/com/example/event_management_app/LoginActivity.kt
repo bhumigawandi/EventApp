@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -21,10 +22,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Notification setup
         NotificationHelper.createChannel(this)
 
-        // Notification permission (Android 13+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(
                     this,
@@ -59,20 +58,34 @@ class LoginActivity : AppCompatActivity() {
             val userPassword = password.text.toString().trim()
             val role = spinner.selectedItem.toString()
 
+            // VALIDATION
             if (userEmail.isEmpty()) {
-                email.error = "Enter email"
+                email.error = "Email is required"
+                email.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
+                email.error = "Enter valid email"
+                email.requestFocus()
                 return@setOnClickListener
             }
 
             if (userPassword.isEmpty()) {
-                password.error = "Enter password"
+                password.error = "Password is required"
+                password.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (userPassword.length < 6) {
+                password.error = "Minimum 6 characters required"
+                password.requestFocus()
                 return@setOnClickListener
             }
 
             Log.d("LOGIN_DEBUG", "Role selected: $role")
 
-            // ADMIN LOGIN
-            if (role.equals("Admin", ignoreCase = true)) {
+            if (role.equals("Admin", true)) {
 
                 if (db.checkAdmin(userEmail, userPassword)) {
 
@@ -90,7 +103,6 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // USER LOGIN (Organizer / Student)
             val valid = db.checkUser(userEmail, userPassword, role)
 
             if (valid) {
@@ -99,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
 
                 playLoginSound {
 
-                    if (role.equals("Organizer", ignoreCase = true)) {
+                    if (role.equals("Organizer", true)) {
 
                         val intent = Intent(this, OrganizerDashboard::class.java)
                         intent.putExtra("organizer_name", userEmail)
@@ -121,7 +133,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // 🔊 Play full audio then navigate
     private fun playLoginSound(onComplete: () -> Unit) {
         mediaPlayer?.release()
 
